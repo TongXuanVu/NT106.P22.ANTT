@@ -1,0 +1,171 @@
+﻿<UserControl x:Class="LANSPYproject.Logs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#F5F7FA">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <StackPanel Background="White" Grid.Column="0">
+            <TextBlock Text="🖥 LANSpy" FontWeight="Bold" FontSize="16" Margin="10,20,0,20" Foreground="#2563EB"/>
+            <Button Content="🏠  Dashboard" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                    Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+            <Button Content="🔍  Scanner" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                    Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+            <Button Content="📄  Logs" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                    Background="Transparent" BorderThickness="0" Foreground="#2563EB"/>
+            <Button Content="⚠️  Alerts" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                    Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+            <Button Content="⚙️  Setting" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                    Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+        </StackPanel>
+
+        <!-- Main content -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Header -->
+            <DockPanel Background="White" Height="50" VerticalAlignment="Top" LastChildFill="False" Margin="0,0,0,10">
+                <TextBlock Text="Hệ thống giám sát mạng nội bộ" FontSize="14" VerticalAlignment="Center" Margin="20,0,0,0"/>
+                <TextBlock Text="📶 Wifi: TP-LINK" FontSize="12" VerticalAlignment="Center" Margin="0,0,20,0" DockPanel.Dock="Right"/>
+            </DockPanel>
+            <!-- Scanner Content -->
+            <StackPanel Grid.Row="1" Margin="20">
+
+                <!-- Search Section -->
+                <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20" >
+                    <StackPanel>
+                        <TextBlock Text="Tìm kiếm" FontSize="18" FontWeight="Bold" Foreground="#1E3A8A" Margin="0,0,0,10"/>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="IP Address" Grid.Row="0" Grid.Column="0" Margin="0,5"/>
+                            <TextBox Text="192.168.1.10" Grid.Row="0" Grid.Column="1" Margin="10,5"/>
+
+                            <TextBlock Text="MAC Address" Grid.Row="1" Grid.Column="0" Margin="0,5"/>
+                            <TextBox Text="AA-BB-CC-DD-EE-FF" Grid.Row="1" Grid.Column="1" Margin="10,5"/>
+
+                            <TextBlock Text="Thiết bị" Grid.Row="2" Grid.Column="0" Margin="0,5"/>
+                            <TextBox Text="Laptop" Grid.Row="2" Grid.Column="1" Margin="10,5"/>
+                        </Grid>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10">
+                            <StackPanel Margin="0,0,20,0">
+                                <TextBlock Text="Thời gian từ" Margin="0,0,0,5"/>
+                                <DatePicker SelectedDate="2025-02-10"/>
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Đến" Margin="0,0,0,5"/>
+                                <DatePicker SelectedDate="2025-02-14"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                            <Button Content="Tìm kiếm" Background="#2563EB" Foreground="White" Padding="10,5" Margin="0,0,10,0" Width="100"/>
+                            <Button Content="Làm mới" Background="#2563EB" Foreground="White" Padding="10,5" Width="100"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Logs Table -->
+                <Border Background="White" CornerRadius="10" Padding="20">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Lịch sử hoạt động mạng" FontSize="18" FontWeight="Bold" Foreground="#1E3A8A"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="Tổng số log: 325" Margin="0,0,10,0"/>
+                                <TextBlock Text="Thiết bị lạ: 12"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Table Header -->
+                        <Grid Margin="0,10,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="SL No" FontWeight="Bold"/>
+                            <TextBlock Text="MAC Address" Grid.Column="1" FontWeight="Bold"/>
+                            <TextBlock Text="IP Address" Grid.Column="2" FontWeight="Bold"/>
+                            <TextBlock Text="Thời gian" Grid.Column="3" FontWeight="Bold"/>
+                            <TextBlock Text="Ghi chú" Grid.Column="4" FontWeight="Bold"/>
+                        </Grid>
+
+                        <!-- Log Row 1 -->
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="01"/>
+                            <TextBlock Text="AA-BB-CC-DD-EE-FF" Grid.Column="1"/>
+                            <TextBlock Text="192.168.1.10" Grid.Column="2"/>
+                            <TextBlock Text="2025-04-10 13:30" Grid.Column="3"/>
+                            <TextBlock Text="Tin cậy" Foreground="Green" Grid.Column="4"/>
+                        </Grid>
+
+                        <!-- Log Row 2 -->
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="02"/>
+                            <TextBlock Text="FF-EE-DD-CC-BB-AA" Grid.Column="1"/>
+                            <TextBlock Text="192.168.1.24" Grid.Column="2"/>
+                            <TextBlock Text="2025-04-10 13:31" Grid.Column="3"/>
+                            <TextBlock Text="Tin cậy" Foreground="Green" Grid.Column="4"/>
+                        </Grid>
+
+                        <!-- Log Row 3 -->
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="03"/>
+                            <TextBlock Text="11-22-33-44-55-66" Grid.Column="1"/>
+                            <TextBlock Text="192.168.1.45" Grid.Column="2"/>
+                            <TextBlock Text="2025-04-10 13:33" Grid.Column="3"/>
+                            <TextBlock Text="Lạ" Foreground="Red" Grid.Column="4"/>
+                        </Grid>
+
+                        <!-- Buttons -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                            <Button Content="Xuất báo cáo" Background="#2563EB" Foreground="White" Padding="10,5" Margin="0,0,10,0"/>
+                            <Button Content="Xoá log cũ (> 7 ngày)" Background="#2563EB" Foreground="White" Padding="10,5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,64 @@
+﻿<Window x:Class="LANSPYproject.Alerts"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Alerts" Height="600" Width="900"
+        Background="#F5F7FA">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <StackPanel Background="White" Grid.Column="0">
+            <TextBlock Text="🖥 LANSpy" FontWeight="Bold" FontSize="16" Margin="10,20,0,20" Foreground="#2563EB"/>
+            <Button Content="🏠  Dashboard" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                    Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+            <Button Content="🔍  Scanner" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                    Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+            <Button Content="📄  Logs" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                    Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+            <Button Content="⚠️  Alerts" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                    Background="Transparent" BorderThickness="0" Foreground="#2563EB"/>
+            <Button Content="⚙️  Setting" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                    Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+        </StackPanel>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Header -->
+            <DockPanel Background="White" Height="50" VerticalAlignment="Top" LastChildFill="False" Margin="0,0,0,10">
+                <TextBlock Text="Hệ thống giám sát mạng nội bộ" FontSize="14" VerticalAlignment="Center" Margin="20,0,0,0"/>
+                <TextBlock Text="📶 Wifi: TP-LINK" FontSize="12" VerticalAlignment="Center" Margin="0,0,20,0" DockPanel.Dock="Right"/>
+            </DockPanel>
+
+            <!-- Alerts Content -->
+            <StackPanel Grid.Row="1" Margin="20">
+                <TextBlock Text="CẢNH BÁO MẠNG" FontSize="18" FontWeight="Bold" Foreground="#334155" Margin="0,0,0,10"/>
+
+                <Border CornerRadius="16" Background="White" Padding="20" Margin="0,0,0,20">
+                    <DataGrid x:Name="AlertDataGrid" AutoGenerateColumns="False" HeadersVisibility="Column"
+                              CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
+                              Background="White" BorderThickness="0" RowBackground="White" AlternatingRowBackground="#F9FAFB" Height="317">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Thời gian" Binding="{Binding ThoiGian}" Width="200" />
+                            <DataGridTextColumn Header="Loại" Binding="{Binding Loai}" Width="200"/>
+                            <DataGridTextColumn Header="Nội Dung" Binding="{Binding NoiDung}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <Button Content="Lọc theo loại" Width="150" Height="40" Background="#2563EB" Foreground="White" FontWeight="Bold" BorderBrush="{x:Null}"  Cursor="Hand"  Margin="0,0,40,0"/>
+                    <Button Content="Xóa cảnh báo cũ" Width="150" Height="40" Background="#2563EB" Foreground="White" FontWeight="Bold" BorderBrush="{x:Null}" Cursor="Hand" Margin="0,0,40,0"/>
+                    <Button Content="Xuất báo cáo" Width="150" Height="40" Background="#2563EB" Foreground="White" FontWeight="Bold" BorderBrush="{x:Null}" Cursor="Hand" Margin="0,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

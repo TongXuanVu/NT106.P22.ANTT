@@ -1,0 +1,96 @@
+﻿
+    <Window x:Class="LANSPYproject.Setting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LANSPYproject"
+        mc:Ignorable="d"
+        Title="Setting" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <StackPanel Background="White" Grid.Column="0">
+            <TextBlock Text="🖥 LANSpy" FontWeight="Bold" FontSize="16" Margin="10,20,0,20" Foreground="#2563EB"/>
+            <Button Content="🏠  Dashboard" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+            <Button Content="🔍  Scanner" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+            <Button Content="📄  Logs" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+            <Button Content="⚠️  Alerts" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                Background="Transparent" BorderThickness="0" Foreground="#2C3E50"/>
+            <Button Content="⚙️  Setting" HorizontalAlignment="Left" Margin="10,5" Padding="5"
+                Background="Transparent" BorderThickness="0" Foreground="#2563EB"/>
+        </StackPanel>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Header -->
+            <DockPanel Background="White" Height="50" VerticalAlignment="Top" LastChildFill="False" Margin="0,0,0,10">
+                <TextBlock Text="Hệ thống giám sát mạng nội bộ" FontSize="14" VerticalAlignment="Center" Margin="20,0,0,0"/>
+                <TextBlock Text="📶 Wifi: TP-LINK" FontSize="12" VerticalAlignment="Center" Margin="0,0,20,0" DockPanel.Dock="Right"/>
+            </DockPanel>
+
+            <!-- Main Content Section -->
+            <StackPanel Grid.Row="1" Margin="20">
+                <TextBlock Text="CÀI ĐẶT" FontSize="18" FontWeight="Bold" Foreground="#334155" Margin="0,0,0,10"/>
+
+                <Border Background="White" CornerRadius="16" Padding="20">
+                    <StackPanel>
+
+                        <!-- Toggle Options -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
+                            <CheckBox x:Name="CheckStartup" IsChecked="True" Margin="0,0,10,0"/>
+                            <TextBlock Text="Khởi động cùng Windows" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
+                            <CheckBox x:Name="CheckNewDevice" Margin="0,0,10,0"/>
+                            <TextBlock Text="Gửi cảnh báo khi phát hiện thiết bị mới" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
+                            <CheckBox x:Name="CheckDisconnect" IsChecked="True" Margin="0,0,10,0"/>
+                            <TextBlock Text="Gửi cảnh báo khi thiết bị mất kết nối" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
+                            <CheckBox x:Name="CheckUnknownMAC" IsChecked="True" Margin="0,0,10,0"/>
+                            <TextBlock Text="Gửi cảnh báo khi có thiết bị lạ (MAC chưa rõ)" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Threshold Inputs -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,15,0,5">
+                            <TextBlock Text="Ngưỡng cảnh báo số lượng thiết bị:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DeviceThreshold" Width="60" Margin="10,0,0,0" Text="50" HorizontalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5,0,10">
+                            <TextBlock Text="Thời gian quét lại (giây):" VerticalAlignment="Center"/>
+                            <TextBox x:Name="ScanInterval" Width="60" Margin="10,0,0,0" Text="300" HorizontalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Action Buttons -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Button Content="Lưu cài đặt" Width="150" Height="40" Background="#2563EB" Foreground="White" FontWeight="Bold" BorderBrush="{x:Null}" Margin="0,0,20,0"/>
+                            <Button Content="Khôi phục mặc định" Width="150" Height="40" Background="#2563EB" Foreground="White" FontWeight="Bold" BorderBrush="{x:Null}"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+
+        </Grid>
+    </Grid>
+</Window>
