@@ -1,0 +1,43 @@
+﻿<Window x:Class="LANSPYproject.Lanspy"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LANSPYproject"
+        Title="LANSpy" MinHeight="400" MinWidth="600"
+        Background="#F5F7FA">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" MinWidth="150" MaxWidth="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Sidebar -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="0">
+            <StackPanel Background="White">
+                <TextBlock Text="🖥 LANSpy" FontWeight="Bold" FontSize="16" Margin="10,20,0,20" Foreground="#2563EB"/>
+                <Button Content="🏠  Dashboard" Cursor="Hand" HorizontalContentAlignment="Left" Margin="0,5" Padding="15,5" Background="Transparent" BorderThickness="0" Foreground="#2C3E50" Click="DashboardButton_Click"/>
+                <Button Content="🔍  Scanner" Cursor="Hand" HorizontalContentAlignment="Left" Margin="0,5" Padding="15,5" Background="Transparent" BorderThickness="0" Foreground="#2C3E50" Click="ScannerButton_Click"/>
+                <Button Content="📄  Logs" Cursor="Hand" HorizontalContentAlignment="Left" Margin="0,5" Padding="15,5" Background="Transparent" BorderThickness="0" Foreground="#2C3E50" Click="LogsButton_Click"/>
+                <Button Content="⚠️  Alerts" Cursor="Hand" HorizontalContentAlignment="Left" Margin="0,5" Padding="15,5" Background="Transparent" BorderThickness="0" Foreground="#2C3E50" Click="AlertsButton_Click"/>
+                <Button Content="⚙️  Setting" Cursor="Hand" HorizontalContentAlignment="Left" Margin="0,5" Padding="15,5" Background="Transparent" BorderThickness="0" Foreground="#2C3E50" Click="SettingButton_Click"/>
+            </StackPanel>
+        </ScrollViewer>
+        <!-- Main Content -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <DockPanel Background="White" Height="50" VerticalAlignment="Top" LastChildFill="False" Margin="0,0,0,10">
+                <TextBlock Text="Hệ thống giám sát mạng nội bộ" FontSize="14" VerticalAlignment="Center" Margin="20,0,0,0"/>
+                <TextBlock Text="📶 Wifi: TP-LINK" FontSize="12" VerticalAlignment="Center" Margin="0,0,20,0" DockPanel.Dock="Right"/>
+            </DockPanel>
+            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="0,50,0,0"/>
+
+            <!-- Dashboard Content -->
+        </Grid>
+    </Grid>
+</Window>

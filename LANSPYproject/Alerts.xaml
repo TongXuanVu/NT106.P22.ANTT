@@ -1,0 +1,137 @@
+﻿<UserControl x:Class="LANSPYproject.Alerts"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LANSPYproject"
+        Background="#F5F7FA">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" MinWidth="150" MaxWidth="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="0"/>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Header -->
+
+            <!-- Alerts Content -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="-100,0,100,0">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20">
+                    <TextBlock Text="CẢNH BÁO MẠNG" 
+                               FontWeight="Bold" 
+                               Margin="0,0,0,20" 
+                               HorizontalAlignment="Center" 
+                               TextWrapping="Wrap">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="18"/>
+                                <Style.Triggers>
+                                    <!-- Điều chỉnh FontSize khi cửa sổ nhỏ hơn 800px -->
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}" Value="800">
+                                        <Setter Property="FontSize" Value="16"/>
+                                    </DataTrigger>
+                                    <!-- FontSize nhỏ hơn khi cửa sổ nhỏ hơn 600px -->
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}" Value="600">
+                                        <Setter Property="FontSize" Value="14"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <Border CornerRadius="10" Background="White" Padding="20" MinWidth="300" MaxWidth="500" Margin="0,0,0,20">
+                        <DataGrid x:Name="AlertDataGrid" AutoGenerateColumns="False" HeadersVisibility="Column"
+                                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
+                                  Background="White" BorderThickness="0" RowBackground="White" AlternatingRowBackground="#F9FAFB">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Thời gian" Binding="{Binding ThoiGian}" Width="200" />
+                                <DataGridTextColumn Header="Loại" Binding="{Binding Loai}" Width="200"/>
+                                <DataGridTextColumn Header="Nội Dung" Binding="{Binding NoiDung}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                        <!-- Nút Lọc theo loại -->
+                        <Border BorderBrush="Blue" CornerRadius="20" Cursor="Hand" Margin="0,0,20,0" Padding="8,4">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#FF2D2DAE"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FF1A1A8C"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Border.RenderTransformOrigin>
+                                <Point X="0.5" Y="0.5"/>
+                            </Border.RenderTransformOrigin>
+                            <TextBlock Text="Lọc theo loại" Foreground="White" Padding="10" TextAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                        </Border>
+
+                        <!-- Nút Xóa cảnh báo cũ -->
+                        <Border BorderBrush="Blue" CornerRadius="20" Cursor="Hand" Margin="0,0,20,0" Padding="8,4">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#FF2D2DAE"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FF1A1A8C"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Border.RenderTransformOrigin>
+                                <Point X="0.5" Y="0.5"/>
+                            </Border.RenderTransformOrigin>
+                            <TextBlock Text="Xóa cảnh báo cũ" Foreground="White" Padding="10" TextAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                        </Border>
+
+                        <!-- Nút Xuất báo cáo -->
+                        <Border BorderBrush="Blue" CornerRadius="20" Cursor="Hand" Margin="0,0,0,0" Padding="8,4">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#FF2D2DAE"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FF1A1A8C"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Border.RenderTransformOrigin>
+                                <Point X="0.5" Y="0.5"/>
+                            </Border.RenderTransformOrigin>
+                            <TextBlock Text="Xuất báo cáo" Foreground="White" Padding="10" TextAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

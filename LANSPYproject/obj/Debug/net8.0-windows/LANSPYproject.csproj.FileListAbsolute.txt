@@ -1,0 +1,86 @@
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Scanner.baml
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\MainWindow.g.cs
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Scanner.g.cs
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\App.g.cs
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject_MarkupCompile.cache
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject_MarkupCompile.lref
+F:\LANSPY\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.exe
+F:\LANSPY\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.deps.json
+F:\LANSPY\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.runtimeconfig.json
+F:\LANSPY\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.dll
+F:\LANSPY\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.pdb
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Alerts.baml
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Logs.baml
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Alerts.g.cs
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Logs.g.cs
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Setting.g.cs
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\MainWindow.baml
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Setting.baml
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.g.resources
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.GeneratedMSBuildEditorConfig.editorconfig
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.AssemblyInfoInputs.cache
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.AssemblyInfo.cs
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.csproj.CoreCompileInputs.cache
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.dll
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\refint\LANSPYproject.dll
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.pdb
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.genruntimeconfig.cache
+F:\LANSPY\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\ref\LANSPYproject.dll
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.exe
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.deps.json
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.runtimeconfig.json
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.dll
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.pdb
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Alerts.baml
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Logs.baml
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Scanner.baml
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Alerts.g.cs
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Logs.g.cs
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\MainWindow.g.cs
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Scanner.g.cs
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Setting.g.cs
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\App.g.cs
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject_MarkupCompile.cache
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject_MarkupCompile.lref
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\MainWindow.baml
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Setting.baml
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.g.resources
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.GeneratedMSBuildEditorConfig.editorconfig
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.AssemblyInfoInputs.cache
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.AssemblyInfo.cs
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.csproj.CoreCompileInputs.cache
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.dll
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\refint\LANSPYproject.dll
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.pdb
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.genruntimeconfig.cache
+F:\LANSPY - RAW\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\ref\LANSPYproject.dll
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.exe
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.deps.json
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.runtimeconfig.json
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.dll
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.pdb
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Alerts.baml
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Logs.baml
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Scanner.baml
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Alerts.g.cs
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Logs.g.cs
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Scanner.g.cs
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Setting.g.cs
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\App.g.cs
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject_MarkupCompile.cache
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject_MarkupCompile.lref
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Setting.baml
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.g.resources
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.GeneratedMSBuildEditorConfig.editorconfig
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.AssemblyInfoInputs.cache
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.AssemblyInfo.cs
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.csproj.CoreCompileInputs.cache
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.dll
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\refint\LANSPYproject.dll
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.pdb
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.genruntimeconfig.cache
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\ref\LANSPYproject.dll
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Dashboard.g.cs
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\Dashboard.baml
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\lanspy.g.cs
+C:\Đồ_án\LAN và điệp\LANSPYproject\LANSPYproject\obj\Debug\net8.0-windows\lanspy.baml
