@@ -3,50 +3,59 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="#F5F7FA">
     <Grid>
-        <Grid Grid.Column="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <!-- phần có thể cuộn -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="1" Margin="20">
-                <TextBlock Text="🔍 Quét mạng nội bộ" FontSize="18" FontWeight="Bold" Margin="0,10,0,10"/>
+            <TextBlock Grid.Row="0" Text="🔍 Quét mạng nội bộ" FontSize="18" FontWeight="Bold" Margin="0,10,0,10"/>
 
-                <WrapPanel Margin="0,0,0,10">
-                    <TextBlock Text="📡 Mạng: " FontWeight="Bold"/>
-                    <TextBlock Text="192.168.1.0/24" Foreground="#2563EB" Margin="5,0,20,0"/>
-                    <TextBlock Text="⏱ Trạng thái: " FontWeight="Bold"/>
-                    <TextBlock Text="Đang quét..." Foreground="#22C55E" Margin="5,0,0,0"/>
-                </WrapPanel>
+            <WrapPanel Grid.Row="1" Margin="0,0,0,10">
+                <TextBlock Text="📡 Mạng: " FontWeight="Bold"/>
+                <TextBlock Text="192.168.1.0/24" Foreground="#2563EB" Margin="5,0,20,0"/>
+                <TextBlock Text="⏱ Trạng thái: " FontWeight="Bold"/>
+                <TextBlock Text="Đang quét..." Foreground="#22C55E" Margin="5,0,0,0"/>
+            </WrapPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                    <Button Content="Quét mạng" Width="100" Margin="0,0,10,0" Padding="8,4"
-                            Background="#2563EB" Foreground="White" BorderBrush="#2563EB" FontWeight="Bold"
-                            BorderThickness="0" Click="ScanButton_Click"/>
-                </StackPanel>
-
-                <TextBlock Text="Danh sách thiết bị" FontWeight="Bold" Margin="0,0,0,10"/>
-
-                <Border Background="White" CornerRadius="10" Padding="10">
-                    <DataGrid x:Name="deviceDataGrid"
-                              AutoGenerateColumns="False"
-                              CanUserAddRows="False"
-                              HeadersVisibility="Column"
-                              Background="White"
-                              BorderBrush="Gray"
-                              BorderThickness="1"
-                              IsReadOnly="True"
-                              RowHeight="30">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
-                            <DataGridTextColumn Header="IP" Binding="{Binding IP}" Width="150"/>
-                            <DataGridTextColumn Header="MAC" Binding="{Binding MAC}" Width="200"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-                            <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="150"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Border>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
+                <Button Content="Quét mạng" Width="100" Margin="0,0,10,0" Padding="8,4"
+                        Background="#2563EB" Foreground="White" BorderBrush="#2563EB" FontWeight="Bold"
+                        BorderThickness="0" Click="ScanButton_Click"/>
             </StackPanel>
+
+            <TextBlock Grid.Row="3" Text="Danh sách thiết bị" FontWeight="Bold" Margin="0,0,0,10"/>
         </Grid>
+
+        <!-- DataGrid cuộn -->
+        <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="20" Padding="10">
+            <DataGrid x:Name="deviceDataGrid"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      HeadersVisibility="Column"
+                      Background="White"
+                      BorderBrush="Gray"
+                      BorderThickness="1"
+                      IsReadOnly="True"
+                      RowHeight="30"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
+                    <DataGridTextColumn Header="IP" Binding="{Binding IP}" Width="150"/>
+                    <DataGridTextColumn Header="MAC" Binding="{Binding MAC}" Width="200"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="150"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
     </Grid>
 </UserControl>
