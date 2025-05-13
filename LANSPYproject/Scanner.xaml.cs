@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -18,29 +19,60 @@ namespace LANSPYproject
             deviceDataGrid.ItemsSource = Devices;
         }
 
-        private void ScanButton_Click(object sender, RoutedEventArgs e)
+        private string GetHostName(string ip)
         {
-            MessageBox.Show("Đã bấm nút quét!");
-            Devices.Clear();
-            ScanNetwork();
+            try
+            {
+                var entry = System.Net.Dns.GetHostEntry(ip);
+                return entry.HostName;
+            }
+            catch
+            {
+                return "Unknown";
+            }
         }
 
-        private async void ScanNetwork()
+        private void ScanButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Đã nhấn");
+            Devices.Clear();
+            ScanNetworkAsync();
+        }
+
+        private async void ScanNetworkAsync()
         {
             string baseIP = "192.168.1.";
+            var pingTasks = new List<Task>();
+            var semaphore = new SemaphoreSlim(20);
 
             for (int i = 1; i < 255; i++)
             {
                 string ip = baseIP + i;
-                try
+                await semaphore.WaitAsync(); 
+                pingTasks.Add(Task.Run(async () =>
                 {
-                    await new Ping().SendPingAsync(ip, 300);
-                }
-                catch { }
+                    try
+                    {
+                        await new Ping().SendPingAsync(ip, 300);
+                    }
+                    catch { }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+                }));
             }
 
-            await Task.Delay(2000); // Đợi bảng ARP cập nhật
+            await Task.WhenAll(pingTasks);
+            await Task.Delay(1000); 
 
+            GetDevicesFromArp();
+        }
+
+
+
+        private void GetDevicesFromArp()
+        {
             var arp = new ProcessStartInfo
             {
                 FileName = "arp",
@@ -66,12 +98,11 @@ namespace LANSPYproject
                         ID = id++,
                         IP = ip,
                         MAC = mac,
-                        Name = "Unknown",
+                        Name = GetHostName(ip),
                         Date = DateTime.Now.ToString("dd/MM, hh:mm tt")
                     });
                 }
             }
         }
-
     }
 }
