@@ -5,25 +5,106 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LANSPYproject"
         Title="LANSpy" MinHeight="400" MinWidth="600"
-        Background="#F5F7FA">
+        Background="#F5F7FA"
+        mc:Ignorable="d">
+
+    <Window.Resources>
+        <!-- 🎨 Màu hover dùng được với animation -->
+        <SolidColorBrush x:Key="HoverBrush" Color="#EEF4FF"/>
+        <SolidColorBrush x:Key="CheckedBrush" Color="#DEEBFF"/>
+        <SolidColorBrush x:Key="TransparentBrush" Color="Transparent"/>
+
+        <Style x:Key="SidebarButtonStyle" TargetType="RadioButton">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+            <Setter Property="Background" Value="{StaticResource TransparentBrush}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="Margin" Value="0,6,0,6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <DockPanel>
+                            <!-- Thanh màu xanh bên trái -->
+                            <Border x:Name="Indicator"
+                                    Width="4"
+                                    Background="#2563EB"
+                                    Visibility="Collapsed"
+                                    VerticalAlignment="Stretch"
+                                    CornerRadius="2,0,0,2"/>
+
+                            <!-- Khu vực nút -->
+                            <Border x:Name="ButtonArea"
+                                    Background="{StaticResource TransparentBrush}"
+                                    CornerRadius="8"
+                                    Padding="12,6"
+                                    Width="Auto">
+                                <ContentPresenter VerticalAlignment="Center"/>
+                            </Border>
+                        </DockPanel>
+
+                        <!-- Triggers -->
+                        <ControlTemplate.Triggers>
+                            <!-- Hover: đổi background thủ công -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonArea" Property="Background" Value="{StaticResource HoverBrush}"/>
+                            </Trigger>
+                            <!-- Được chọn -->
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Indicator" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="ButtonArea" Property="Background" Value="{StaticResource CheckedBrush}"/>
+                                <Setter Property="Foreground" Value="#2563EB"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="180" MinWidth="150" MaxWidth="250"/>
+            <ColumnDefinition Width="Auto" MinWidth="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
-        <!-- Sidebar -->
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="0">
+
+        <!-- 📋 SIDEBAR -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="0" MinWidth="160" MaxWidth="250">
             <StackPanel Background="White">
-                <TextBlock Text="🖥 LANSpy" FontWeight="Bold" FontSize="16" Margin="10,20,0,20" Foreground="#2563EB"/>
-                <Button Content="🏠  Dashboard" Cursor="Hand" HorizontalContentAlignment="Left" Margin="0,5" Padding="15,5" Background="Transparent" BorderThickness="0" Foreground="#2C3E50" Click="DashboardButton_Click"/>
-                <Button Content="🔍  Scanner" Cursor="Hand" HorizontalContentAlignment="Left" Margin="0,5" Padding="15,5" Background="Transparent" BorderThickness="0" Foreground="#2C3E50" Click="ScannerButton_Click"/>
-                <Button Content="📄  Logs" Cursor="Hand" HorizontalContentAlignment="Left" Margin="0,5" Padding="15,5" Background="Transparent" BorderThickness="0" Foreground="#2C3E50" Click="LogsButton_Click"/>
-                <Button Content="⚠️  Alerts" Cursor="Hand" HorizontalContentAlignment="Left" Margin="0,5" Padding="15,5" Background="Transparent" BorderThickness="0" Foreground="#2C3E50" Click="AlertsButton_Click"/>
-                <Button Content="⚙️  Setting" Cursor="Hand" HorizontalContentAlignment="Left" Margin="0,5" Padding="15,5" Background="Transparent" BorderThickness="0" Foreground="#2C3E50" Click="SettingButton_Click"/>
+                <TextBlock Text="🖥 LANSpy"
+                           FontWeight="Bold"
+                           FontSize="16"
+                           Margin="10,20,0,20"
+                           Foreground="#2563EB"/>
+
+                <RadioButton Content="🏠  Dashboard"
+                             Style="{StaticResource SidebarButtonStyle}"
+                             GroupName="Sidebar"
+                             Checked="DashboardButton_Click"/>
+                <RadioButton Content="🔍  Scanner"
+                             Style="{StaticResource SidebarButtonStyle}"
+                             GroupName="Sidebar"
+                             Checked="ScannerButton_Click"/>
+                <RadioButton Content="📄  Logs"
+                             Style="{StaticResource SidebarButtonStyle}"
+                             GroupName="Sidebar"
+                             Checked="LogsButton_Click"/>
+                <RadioButton Content="⚠️  Alerts"
+                             Style="{StaticResource SidebarButtonStyle}"
+                             GroupName="Sidebar"
+                             Checked="AlertsButton_Click"/>
+                <RadioButton Content="⚙️  Settings"
+                             Style="{StaticResource SidebarButtonStyle}"
+                             GroupName="Sidebar"
+                             Checked="SettingButton_Click"/>
             </StackPanel>
         </ScrollViewer>
-        <!-- Main Content -->
+
+        <!-- 📄 NỘI DUNG -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -32,12 +113,23 @@
 
             <!-- Header -->
             <DockPanel Background="White" Height="50" VerticalAlignment="Top" LastChildFill="False" Margin="0,0,0,10">
-                <TextBlock Text="Hệ thống giám sát mạng nội bộ" FontSize="14" VerticalAlignment="Center" Margin="20,0,0,0"/>
-                <TextBlock Text="📶 Wifi: TP-LINK" FontSize="12" VerticalAlignment="Center" Margin="0,0,20,0" DockPanel.Dock="Right"/>
+                <TextBlock Text="Hệ thống giám sát mạng nội bộ"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           Margin="20,0,0,0"/>
+                <TextBlock Text="📶 Wifi: TP-LINK"
+                           FontSize="12"
+                           VerticalAlignment="Center"
+                           Margin="0,0,20,0"
+                           DockPanel.Dock="Right"/>
             </DockPanel>
-            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="0,50,0,0"/>
 
-            <!-- Dashboard Content -->
+            <!-- Main Frame -->
+            <Frame x:Name="MainFrame"
+                   Grid.Row="1"
+                   NavigationUIVisibility="Hidden"
+                   Margin="0"/>
         </Grid>
     </Grid>
 </Window>

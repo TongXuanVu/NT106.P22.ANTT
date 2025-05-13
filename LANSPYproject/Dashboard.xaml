@@ -7,7 +7,7 @@
              Background="#F5F7FA">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
