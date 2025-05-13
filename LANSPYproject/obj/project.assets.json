@@ -8,19 +8,24 @@
     "net8.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\xuan vu\\.nuget\\packages\\": {}
+    "C:\\Users\\Duc Thinh\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Đồ_án\\LAN và điệp\\LANSPYproject\\LANSPYproject\\LANSPYproject.csproj",
+      "projectUniqueName": "C:\\Users\\Duc Thinh\\Documents\\Lập trình mạng\\Đồ án\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
       "projectName": "LANSPYproject",
-      "projectPath": "C:\\Đồ_án\\LAN và điệp\\LANSPYproject\\LANSPYproject\\LANSPYproject.csproj",
-      "packagesPath": "C:\\Users\\xuan vu\\.nuget\\packages\\",
-      "outputPath": "C:\\Đồ_án\\LAN và điệp\\LANSPYproject\\LANSPYproject\\obj\\",
+      "projectPath": "C:\\Users\\Duc Thinh\\Documents\\Lập trình mạng\\Đồ án\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
+      "packagesPath": "C:\\Users\\Duc Thinh\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Duc Thinh\\Documents\\Lập trình mạng\\Đồ án\\NT106.P22.ANTT\\LANSPYproject\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\xuan vu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Duc Thinh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -45,7 +50,8 @@
         "enableAudit": "true",
         "auditLevel": "high",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0-windows7.0": {
@@ -69,7 +75,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
