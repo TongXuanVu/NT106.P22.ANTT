@@ -125,11 +125,9 @@
                            DockPanel.Dock="Right"/>
             </DockPanel>
 
-            <!-- Main Frame -->
-            <Frame x:Name="MainFrame"
-                   Grid.Row="1"
-                   NavigationUIVisibility="Hidden"
-                   Margin="0"/>
+
+            <ContentControl x:Name="MainContent" Grid.Row="1"/>
+
         </Grid>
     </Grid>
 </Window>
