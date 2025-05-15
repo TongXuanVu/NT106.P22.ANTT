@@ -53,14 +53,37 @@
                         </DataGrid>
                     </Border>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                        <Border BorderBrush="Blue" CornerRadius="20" Cursor="Hand" Margin="0,0,20,0" Padding="8,4">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Background" Value="#123288"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,20,0" >
+                        <Button Width="120" Height="35" Content="Lọc theo loại" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,30,0">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#123288" Offset="0"/>
+                                    <GradientStop Color="#295EEC" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="20" 
+                                    Padding="8,4">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#1A47B8"/>
+                                            <Setter Property="Background">
+                                                <Setter.Value>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#1A47B8" Offset="0"/>
+                                                        <GradientStop Color="#4B7BFF" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
                                             <Setter Property="RenderTransform">
                                                 <Setter.Value>
                                                     <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
@@ -69,21 +92,39 @@
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Border.Style>
-                            <Border.RenderTransformOrigin>
-                                <Point X="0.5" Y="0.5"/>
-                            </Border.RenderTransformOrigin>
-                            <TextBlock Text="Lọc theo loại" Foreground="White" Padding="10" TextAlignment="Center" FontSize="14" FontWeight="Bold"/>
-                        
-                        </Border>
+                            </Button.Style>
+                        </Button>
 
-                        <Border BorderBrush="Blue" CornerRadius="20" Cursor="Hand" Margin="0,0,20,0" Padding="8,4">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Background" Value="#295eec"/>
+                        <Button Width="135" Height="35" Content="Xóa cảnh báo cũ" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,30,0">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#123288" Offset="0"/>
+                                    <GradientStop Color="#295EEC" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="20" 
+                                    Padding="8,4">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#4B7BFF"/>
+                                            <Setter Property="Background">
+                                                <Setter.Value>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#4B7BFF" Offset="0"/>
+                                                        <GradientStop Color="#709EFF" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
                                             <Setter Property="RenderTransform">
                                                 <Setter.Value>
                                                     <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
@@ -92,20 +133,39 @@
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Border.Style>
-                            <Border.RenderTransformOrigin>
-                                <Point X="0.5" Y="0.5"/>
-                            </Border.RenderTransformOrigin>
-                            <TextBlock Text="Xóa cảnh báo cũ" Foreground="White" Padding="10" TextAlignment="Center" FontSize="14" FontWeight="Bold"/>
-                        </Border>
+                            </Button.Style>
+                        </Button>
 
-                        <Border BorderBrush="Blue" CornerRadius="20" Cursor="Hand" Margin="0,0,0,0" Padding="8,4">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Background" Value="#123288"/>
+                        <Button Width="120" Height="35" Content="Xuất báo cáo" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#123288" Offset="0"/>
+                                    <GradientStop Color="#295EEC" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="20" 
+                                    Padding="8,4">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#1A47B8"/>
+                                            <Setter Property="Background">
+                                                <Setter.Value>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#1A47B8" Offset="0"/>
+                                                        <GradientStop Color="#4B7BFF" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
                                             <Setter Property="RenderTransform">
                                                 <Setter.Value>
                                                     <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
@@ -114,13 +174,11 @@
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Border.Style>
-                            <Border.RenderTransformOrigin>
-                                <Point X="0.5" Y="0.5"/>
-                            </Border.RenderTransformOrigin>
-                            <TextBlock Text="Xuất báo cáo" Foreground="White" Padding="10" TextAlignment="Center" FontSize="14" FontWeight="Bold"/>
-                        </Border>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
+
+
                 </StackPanel>
             </ScrollViewer>
         </Grid>
