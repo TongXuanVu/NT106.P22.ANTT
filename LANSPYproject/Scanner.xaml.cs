@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,152 +15,511 @@ using System.Windows.Controls;
 
 namespace LANSPYproject
 {
-    public partial class Scanner : UserControl
+    public partial class Scanner : UserControl, INotifyPropertyChanged
     {
-        public ObservableCollection<Device> Devices { get; set; } = new ObservableCollection<Device>();
+        private static readonly Dictionary<string, string> OUIManufacturers = new Dictionary<string, string>
+        {
+            {"00:1A:2B", "Cisco Systems"},
+            {"00:1B:44", "Dell Inc."},
+            {"00:1C:B3", "Apple, Inc."},
+            {"00:1D:7E", "Samsung Electronics"},
+            // Thêm mã OUI nếu cần
+        };
+
+        public ObservableCollection<NetworkDevice> Devices { get; set; } = new ObservableCollection<NetworkDevice>();
+
+        private CancellationTokenSource? cts = null;
+
+        private string currentNetworkRange = "Không xác định";
+        public string CurrentNetworkRange
+        {
+            get => currentNetworkRange;
+            set
+            {
+                if (currentNetworkRange != value)
+                {
+                    currentNetworkRange = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public Scanner()
         {
             InitializeComponent();
             deviceDataGrid.ItemsSource = Devices;
+
+            UpdateCurrentNetworkRange();
+
+            NetworkChange.NetworkAddressChanged += (s, e) =>
+            {
+                Dispatcher.Invoke(() => UpdateCurrentNetworkRange());
+            };
+
+            this.DataContext = this;
         }
 
         private void ScanButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Đã nhấn");
             Devices.Clear();
-            ScanNetworkAsync();
+            AddLocalDevice();
+            UpdateCurrentNetworkRange();
+            StartScanning();
         }
 
-        private async void ScanNetworkAsync()
+        private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            string fullIP = GetLocalBaseIP();
-            if (string.IsNullOrEmpty(fullIP) || !Regex.IsMatch(fullIP, @"^\d+\.\d+\.\d+\.\d+$"))
+            StopScanning();
+        }
+
+        private void UpdateCurrentNetworkRange()
+        {
+            var ipSubnetWiFi = GetWiFiIPAndSubnetMask();
+            if (ipSubnetWiFi != null)
+            {
+                var (ip, subnet) = ipSubnetWiFi.Value;
+                CurrentNetworkRange = GetNetworkAddress(ip, subnet) + "/" + GetSubnetMaskLength(subnet);
+                return;
+            }
+
+            var ipSubnetEthernet = GetEthernetIPAndSubnetMask();
+            if (ipSubnetEthernet != null)
+            {
+                var (ip, subnet) = ipSubnetEthernet.Value;
+                CurrentNetworkRange = GetNetworkAddress(ip, subnet) + "/" + GetSubnetMaskLength(subnet);
+                return;
+            }
+
+            CurrentNetworkRange = "Không có kết nối WiFi";
+        }
+
+        private (string ipAddress, string subnetMask)? GetWiFiIPAndSubnetMask()
+        {
+            foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 &&
+                    ni.OperationalStatus == OperationalStatus.Up)
+                {
+                    var ipProps = ni.GetIPProperties();
+                    if (ipProps.GatewayAddresses.Any(g => g.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork))
+                    {
+                        foreach (var unicast in ipProps.UnicastAddresses)
+                        {
+                            if (unicast.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                            {
+                                return (unicast.Address.ToString(), unicast.IPv4Mask.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        private (string ipAddress, string subnetMask)? GetEthernetIPAndSubnetMask()
+        {
+            foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet &&
+                    ni.OperationalStatus == OperationalStatus.Up)
+                {
+                    var ipProps = ni.GetIPProperties();
+                    if (ipProps.GatewayAddresses.Any(g => g.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork))
+                    {
+                        foreach (var unicast in ipProps.UnicastAddresses)
+                        {
+                            if (unicast.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                            {
+                                return (unicast.Address.ToString(), unicast.IPv4Mask.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        private void AddLocalDevice()
+        {
+            var localIPSubnet = GetWiFiIPAndSubnetMask() ?? GetEthernetIPAndSubnetMask();
+            if (localIPSubnet == null) return;
+
+            var (localIP, subnet) = localIPSubnet.Value;
+            string? mac = GetLocalMacAddress();
+
+            if (mac == null) mac = "Unknown";
+
+            // Không thêm nếu đã có
+            if (Devices.Any(d => d.IP == localIP)) return;
+
+            Devices.Insert(0, new NetworkDevice
+            {
+                ID = 0,
+                IP = localIP,
+                MAC = mac,
+                HostName = Dns.GetHostName(),
+                Manufacturer = "Local Machine",
+                ScanDate = DateTime.Now.ToString("dd/MM, hh:mm tt")
+            });
+        }
+
+        private string? GetLocalMacAddress()
+        {
+            foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (nic.OperationalStatus == OperationalStatus.Up &&
+                    (nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
+                     nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211))
+                {
+                    var macAddress = nic.GetPhysicalAddress();
+                    if (macAddress != null && macAddress.GetAddressBytes().Length == 6)
+                    {
+                        return string.Join(":", macAddress.GetAddressBytes().Select(b => b.ToString("X2")));
+                    }
+                }
+            }
+            return null;
+        }
+
+        private async void StartScanning()
+        {
+            if (cts != null)
+                return;
+
+            cts = new CancellationTokenSource();
+
+            StatusTextBlock.Text = "Đang quét...";
+            StatusTextBlock.Foreground = System.Windows.Media.Brushes.Green;
+            ScanButton.IsEnabled = false;
+            StopButton.IsEnabled = true;
+
+            try
+            {
+                await ScanNetworkAsync(cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                StatusTextBlock.Text = "Quét bị dừng";
+                StatusTextBlock.Foreground = System.Windows.Media.Brushes.OrangeRed;
+            }
+            finally
+            {
+                cts.Dispose();
+                cts = null;
+
+                if (StatusTextBlock.Text != "Quét bị dừng")
+                {
+                    StatusTextBlock.Text = "Quét hoàn thành";
+                    StatusTextBlock.Foreground = System.Windows.Media.Brushes.Blue;
+                }
+
+                ScanButton.IsEnabled = true;
+                StopButton.IsEnabled = false;
+            }
+        }
+
+        private void StopScanning()
+        {
+            cts?.Cancel();
+        }
+
+        private async Task ScanNetworkAsync(CancellationToken token)
+        {
+            var ipSubnet = GetWiFiIPAndSubnetMask() ?? GetEthernetIPAndSubnetMask();
+            if (ipSubnet == null)
             {
                 MessageBox.Show("Không tìm thấy IP hợp lệ!");
                 return;
             }
-            MessageBox.Show(fullIP);
-            string baseIP = string.Join(".", fullIP.Split('.').Take(3)) + ".";
-            var pingTasks = new List<Task>();
-            var semaphore = new SemaphoreSlim(10); // Giới hạn số ping đồng thời
 
-            for (int i = 1; i < 255; i++)
+            var (ipAddress, subnetMask) = ipSubnet.Value;
+            var ipList = GetLimitedHosts(ipAddress);
+
+            var semaphore = new SemaphoreSlim(50);
+            int scannedCount = 0;
+
+            foreach (var ip in ipList)
             {
-                string ip = baseIP + i;
-                await semaphore.WaitAsync();
-                pingTasks.Add(Task.Run(async () =>
+                token.ThrowIfCancellationRequested();
+                await semaphore.WaitAsync(token);
+
+                _ = Task.Run(async () =>
                 {
                     try
                     {
-                        await new Ping().SendPingAsync(ip, 300);
+                        token.ThrowIfCancellationRequested();
+                        using (var ping = new Ping())
+                        {
+                            var reply = await ping.SendPingAsync(ip, 500);
+                            if (reply.Status == IPStatus.Success)
+                            {
+                                NetworkDevice? device = null;
+                                App.Current.Dispatcher.Invoke(() =>
+                                {
+                                    device = Devices.FirstOrDefault(d => d.IP == ip);
+                                    if (device == null)
+                                    {
+                                        device = new NetworkDevice
+                                        {
+                                            ID = Devices.Count + 1,
+                                            IP = ip,
+                                            MAC = "Đang lấy...",
+                                            HostName = "",
+                                            Manufacturer = "",
+                                            ScanDate = DateTime.Now.ToString("dd/MM, hh:mm tt")
+                                        };
+                                        Devices.Add(device);
+                                    }
+                                });
+
+                                if (device != null)
+                                {
+                                    await UpdateMacForDevice(ip, device);
+                                    await UpdateNameForDevice(ip, device);
+                                }
+                            }
+                        }
                     }
                     catch { }
                     finally
                     {
                         semaphore.Release();
-                    }
-                }));
-            }
-
-            await Task.WhenAll(pingTasks);
-            await Task.Delay(1000); // Chờ bảng ARP cập nhật
-
-            GetDevicesFromArp();
-            UpdateHostNamesAsync(); // Cập nhật tên thiết bị nền
-        }
-
-        private void GetDevicesFromArp()
-        {
-            var arp = new ProcessStartInfo
-            {
-                FileName = "arp",
-                Arguments = "-a",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-            var process = Process.Start(arp);
-            string output = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
-            process.Dispose();
-
-            var lines = output.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-            int id = 1;
-
-            string fullIP = GetLocalBaseIP();
-            if (string.IsNullOrEmpty(fullIP) || !Regex.IsMatch(fullIP, @"^\d+\.\d+\.\d+\.\d+$"))
-                return;
-
-            string baseIP = string.Join(".", fullIP.Split('.').Take(3)) + ".";
-
-            foreach (var line in lines)
-            {
-                var match = Regex.Match(line, @"(\d+\.\d+\.\d+\.\d+)\s+([a-fA-F0-9:-]{17})");
-                if (match.Success)
-                {
-                    string ip = match.Groups[1].Value;
-                    string mac = match.Groups[2].Value;
-
-                    // 🔴 Bỏ IP không cùng dải mạng (multicast, broadcast, khác subnet)
-                    if (!ip.StartsWith(baseIP)) continue;
-                    if (mac == "---" || mac == "ff-ff-ff-ff-ff-ff") continue;
-
-                    Devices.Add(new Device
-                    {
-                        ID = id++,
-                        IP = ip,
-                        MAC = mac,
-                        Name = "Unknow",
-                        Date = DateTime.Now.ToString("dd/MM, hh:mm tt")
-                    });
-                }
-            }
-        }
-
-        private async void UpdateHostNamesAsync()
-        {
-            foreach (var device in Devices)
-            {
-                await Task.Run(() =>
-                {
-                    try
-                    {
-                        var entry = System.Net.Dns.GetHostEntry(device.IP);
-                        string hostname = entry.HostName;
-
-                        Dispatcher.Invoke(() =>
+                        Interlocked.Increment(ref scannedCount);
+                        if (scannedCount % 10 == 0)
                         {
-                            device.Name = hostname;
-                        });
-                    }
-                    catch { }
-                });
-
-                await Task.Delay(100); // để tránh quá tải DNS
-            }
-        }
-
-        private string GetLocalBaseIP()
-        {
-            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
-            {
-                // Chỉ chọn adapter Wi-Fi đang hoạt động
-                if (ni.OperationalStatus == OperationalStatus.Up &&
-                    ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
-                {
-                    foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
-                    {
-                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                        {
-                            return ip.Address.ToString();
+                            App.Current.Dispatcher.Invoke(() =>
+                            {
+                                StatusTextBlock.Text = $"Đang quét... ({scannedCount}/{ipList.Count})";
+                            });
                         }
                     }
-                }
+                }, token);
+
+                await Task.Delay(30, token);
             }
 
-            return null;
+            while (semaphore.CurrentCount < 50)
+            {
+                await Task.Delay(100, token);
+            }
+
+            token.ThrowIfCancellationRequested();
         }
 
+        private List<string> GetLimitedHosts(string ipAddress)
+        {
+            var ips = new List<string>();
+            try
+            {
+                var ipParts = ipAddress.Split('.');
+                if (ipParts.Length != 4) return ips;
+
+                string baseIp = $"{ipParts[0]}.{ipParts[1]}.{ipParts[2]}";
+
+                for (int i = 1; i <= 254; i++)
+                {
+                    ips.Add($"{baseIp}.{i}");
+                }
+            }
+            catch { }
+            return ips;
+        }
+
+        private async Task UpdateMacForDevice(string ip, NetworkDevice device)
+        {
+            try
+            {
+                var arp = new ProcessStartInfo
+                {
+                    FileName = "arp",
+                    Arguments = "-a " + ip,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                var process = Process.Start(arp);
+                string output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+                process.Dispose();
+
+                var regex = new Regex(@"(([a-fA-F0-9]{2}[:-]){5}[a-fA-F0-9]{2})");
+                var match = regex.Match(output);
+                if (match.Success)
+                {
+                    var mac = match.Value.ToUpper();
+                    if (!string.IsNullOrWhiteSpace(mac))
+                    {
+                        string manufacturer = GetManufacturerFromMac(mac);
+                        App.Current.Dispatcher.Invoke(() =>
+                        {
+                            device.MAC = mac;
+                            device.Manufacturer = manufacturer;
+                        });
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private string GetManufacturerFromMac(string mac)
+        {
+            if (string.IsNullOrWhiteSpace(mac) || mac.Length < 8) return "Unknown";
+
+            string oui = mac.Substring(0, 8).ToUpper().Replace('-', ':');
+
+            if (OUIManufacturers.TryGetValue(oui, out var manufacturer))
+                return manufacturer;
+
+            return "Unknown";
+        }
+
+        private async Task UpdateNameForDevice(string ip, NetworkDevice device)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var entry = Dns.GetHostEntry(ip);
+                    string hostname = entry.HostName;
+                    if (!string.IsNullOrWhiteSpace(hostname))
+                    {
+                        App.Current.Dispatcher.Invoke(() =>
+                        {
+                            device.HostName = hostname;
+                        });
+                    }
+                }
+                catch
+                {
+                    // Giữ nguyên nếu lỗi
+                }
+            });
+        }
+
+        private string GetNetworkAddress(string ipAddress, string subnetMask)
+        {
+            var ip = IPAddress.Parse(ipAddress).GetAddressBytes();
+            var mask = IPAddress.Parse(subnetMask).GetAddressBytes();
+
+            byte[] network = new byte[ip.Length];
+            for (int i = 0; i < ip.Length; i++)
+                network[i] = (byte)(ip[i] & mask[i]);
+
+            return new IPAddress(network).ToString();
+        }
+
+        private int GetSubnetMaskLength(string subnetMask)
+        {
+            var mask = IPAddress.Parse(subnetMask).GetAddressBytes();
+            int length = 0;
+            foreach (var b in mask)
+            {
+                for (int i = 7; i >= 0; i--)
+                {
+                    if ((b & (1 << i)) != 0) length++;
+                    else break;
+                }
+            }
+            return length;
+        }
+
+        private bool IsInSameSubnet(string ipAddress, string subnetAddress, string subnetMask)
+        {
+            var ip = IPAddress.Parse(ipAddress).GetAddressBytes();
+            var subnet = IPAddress.Parse(subnetAddress).GetAddressBytes();
+            var mask = IPAddress.Parse(subnetMask).GetAddressBytes();
+
+            for (int i = 0; i < ip.Length; i++)
+            {
+                if ((ip[i] & mask[i]) != (subnet[i] & mask[i]))
+                    return false;
+            }
+            return true;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+    }
+
+    public class NetworkDevice : INotifyPropertyChanged
+    {
+        private int _id;
+        private string _ip = "";
+        private string _mac = "";
+        private string _manufacturer = "";
+        private string _hostName = "";
+        private string _name = "";
+        private string _scanDate = "";
+
+        public int ID
+        {
+            get => _id;
+            set { _id = value; OnPropertyChanged(); }
+        }
+
+        public string IP
+        {
+            get => _ip;
+            set { _ip = value; OnPropertyChanged(); }
+        }
+
+        public string MAC
+        {
+            get => _mac;
+            set { _mac = value; OnPropertyChanged(); }
+        }
+
+        public string Manufacturer
+        {
+            get => _manufacturer;
+            set
+            {
+                _manufacturer = value;
+                UpdateNameCombined();
+            }
+        }
+
+        public string HostName
+        {
+            get => _hostName;
+            set
+            {
+                _hostName = value;
+                UpdateNameCombined();
+            }
+        }
+
+        public string Name
+        {
+            get => _name;
+            private set { _name = value; OnPropertyChanged(); }
+        }
+
+        public string ScanDate
+        {
+            get => _scanDate;
+            set { _scanDate = value; OnPropertyChanged(); }
+        }
+
+        private void UpdateNameCombined()
+        {
+            if (!string.IsNullOrEmpty(HostName) && !string.IsNullOrEmpty(Manufacturer))
+                Name = $"{HostName} ({Manufacturer})";
+            else if (!string.IsNullOrEmpty(HostName))
+                Name = HostName;
+            else if (!string.IsNullOrEmpty(Manufacturer))
+                Name = Manufacturer;
+            else
+                Name = "Unknown";
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? propName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
     }
 }

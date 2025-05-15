@@ -6,7 +6,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <!-- phần có thể cuộn -->
         </Grid.RowDefinitions>
 
         <!-- Header -->
@@ -22,15 +21,93 @@
 
             <WrapPanel Grid.Row="1" Margin="0,0,0,10">
                 <TextBlock Text="📡 Mạng: " FontWeight="Bold"/>
-                <TextBlock Text="192.168.1.0/24" Foreground="#2563EB" Margin="5,0,20,0"/>
+                <TextBlock Text="{Binding CurrentNetworkRange}" Foreground="#2563EB" Margin="5,0,20,0"/>
                 <TextBlock Text="⏱ Trạng thái: " FontWeight="Bold"/>
-                <TextBlock Text="Đang quét..." Foreground="#22C55E" Margin="5,0,0,0"/>
+                <TextBlock x:Name="StatusTextBlock" Text="Chưa quét" Foreground="Gray" Margin="5,0,0,0"/>
             </WrapPanel>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
-                <Button Content="Quét mạng" Width="100" Margin="0,0,10,0" Padding="8,4"
-                        Background="#2563EB" Foreground="White" BorderBrush="#2563EB" FontWeight="Bold"
-                        BorderThickness="0" Click="ScanButton_Click"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Left">
+                <Button x:Name="ScanButton" Content="Quét mạng" Width="100" Padding="8,4" FontWeight="Bold"
+                        BorderThickness="0" Click="ScanButton_Click" Margin="0,0,10,0" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border" Background="#4F46E5" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="border"
+                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                                To="#6366F1" Duration="0:0:0.3" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="border"
+                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                                To="#A9A9A9" Duration="0:0:0.3" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="Foreground" Value="White" />
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="#DDDDDD"/>
+                                    <Setter Property="Cursor" Value="Arrow"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="StopButton" Content="Dừng quét" Width="100" Padding="8,4" FontWeight="Bold"
+                        BorderThickness="0" Click="StopButton_Click" IsEnabled="False" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border" Background="#EF4444" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="border"
+                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                                To="#F87171" Duration="0:0:0.3" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="border"
+                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                                To="#A9A9A9" Duration="0:0:0.3" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="Foreground" Value="White" />
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="#DDDDDD"/>
+                                    <Setter Property="Cursor" Value="Arrow"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
 
             <TextBlock Grid.Row="3" Text="Danh sách thiết bị" FontWeight="Bold" Margin="0,0,0,10"/>
@@ -52,8 +129,8 @@
                     <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
                     <DataGridTextColumn Header="IP" Binding="{Binding IP}" Width="150"/>
                     <DataGridTextColumn Header="MAC" Binding="{Binding MAC}" Width="200"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="150"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding ScanDate}" Width="150"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
