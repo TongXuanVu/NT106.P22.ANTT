@@ -1,15 +1,81 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace LANSPYproject
 {
     public partial class Lanspy : Window
     {
+        private DispatcherTimer wifiTimer;
+
         public Lanspy()
         {
             InitializeComponent();
-            // Mặc định mở trang Dashboard khi khởi động
+
+            UpdateWifiDisplay();
+
             MainContent.Content = new Dashboard();
+
+            // Cập nhật tên Wifi mỗi 10 giây
+            wifiTimer = new DispatcherTimer();
+            wifiTimer.Interval = TimeSpan.FromSeconds(10);
+            wifiTimer.Tick += (s, e) => UpdateWifiDisplay();
+            wifiTimer.Start();
+        }
+
+        private void UpdateWifiDisplay()
+        {
+            string wifiName = GetWifiName();
+
+            if (string.IsNullOrEmpty(wifiName) || wifiName == "Unknown")
+            {
+                WifiNameTextBlock.Text = "Không có kết nối Wifi";
+                WifiNameTextBlock.Foreground = Brushes.Red;
+                WifiNameTextBlock.ToolTip = "Hiện tại máy không kết nối Wifi";
+            }
+            else
+            {
+                WifiNameTextBlock.Text = wifiName;
+                WifiNameTextBlock.Foreground = Brushes.Black;
+                WifiNameTextBlock.ToolTip = $"Đang kết nối Wifi: {wifiName}";
+            }
+        }
+
+        private string GetWifiName()
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo("netsh", "wlan show interfaces")
+                {
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using (Process process = Process.Start(psi))
+                {
+                    string output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+
+                    Regex regex = new Regex(@"^\s*SSID\s*:\s*(.+)$", RegexOptions.Multiline);
+                    Match match = regex.Match(output);
+                    if (match.Success)
+                    {
+                        string ssid = match.Groups[1].Value.Trim();
+                        if (ssid.Equals("BSSID", StringComparison.OrdinalIgnoreCase))
+                            return "Unknown";
+                        return ssid;
+                    }
+                }
+            }
+            catch
+            {
+                // Lỗi thì trả về Unknown
+            }
+            return "Unknown";
         }
 
         private void DashboardButton_Click(object sender, RoutedEventArgs e)

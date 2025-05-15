@@ -9,7 +9,6 @@
         mc:Ignorable="d">
 
     <Window.Resources>
-        <!-- 🎨 Màu hover dùng được với animation -->
         <SolidColorBrush x:Key="HoverBrush" Color="#EEF4FF"/>
         <SolidColorBrush x:Key="CheckedBrush" Color="#DEEBFF"/>
         <SolidColorBrush x:Key="TransparentBrush" Color="Transparent"/>
@@ -28,15 +27,12 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
                         <DockPanel>
-                            <!-- Thanh màu xanh bên trái -->
                             <Border x:Name="Indicator"
                                     Width="4"
                                     Background="#2563EB"
                                     Visibility="Collapsed"
                                     VerticalAlignment="Stretch"
                                     CornerRadius="2,0,0,2"/>
-
-                            <!-- Khu vực nút -->
                             <Border x:Name="ButtonArea"
                                     Background="{StaticResource TransparentBrush}"
                                     CornerRadius="8"
@@ -45,14 +41,10 @@
                                 <ContentPresenter VerticalAlignment="Center"/>
                             </Border>
                         </DockPanel>
-
-                        <!-- Triggers -->
                         <ControlTemplate.Triggers>
-                            <!-- Hover: đổi background thủ công -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="ButtonArea" Property="Background" Value="{StaticResource HoverBrush}"/>
                             </Trigger>
-                            <!-- Được chọn -->
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="Indicator" Property="Visibility" Value="Visible"/>
                                 <Setter TargetName="ButtonArea" Property="Background" Value="{StaticResource CheckedBrush}"/>
@@ -72,7 +64,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- 📋 SIDEBAR -->
+        <!-- Sidebar -->
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="0" MinWidth="160" MaxWidth="250">
             <StackPanel Background="White">
                 <TextBlock Text="🖥 LANSpy"
@@ -104,7 +96,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <!-- 📄 NỘI DUNG -->
+        <!-- Main Content -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -118,16 +110,26 @@
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            Margin="20,0,0,0"/>
-                <TextBlock Text="📶 Wifi: TP-LINK"
-                           FontSize="12"
-                           VerticalAlignment="Center"
-                           Margin="0,0,20,0"
-                           DockPanel.Dock="Right"/>
+                <Border DockPanel.Dock="Right" 
+                        Margin="0,0,20,0" 
+                        Padding="6,3" 
+                        Background="#E6F0FF" 
+                        BorderBrush="#2563EB" 
+                        BorderThickness="1" 
+                        CornerRadius="6"
+                        VerticalAlignment="Center"
+                        ToolTipService.ToolTip="{Binding WifiTooltip}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="📶" FontSize="14" Margin="0,0,5,0"/>
+                        <TextBlock x:Name="WifiNameTextBlock" 
+                                   FontSize="12" 
+                                   FontWeight="SemiBold" 
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
             </DockPanel>
 
-
             <ContentControl x:Name="MainContent" Grid.Row="1"/>
-
         </Grid>
     </Grid>
 </Window>
