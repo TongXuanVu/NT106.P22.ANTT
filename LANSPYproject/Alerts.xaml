@@ -48,7 +48,7 @@
                         </TextBlock.Style>
                     </TextBlock>
 
-                    <Border CornerRadius="10" Background="White" Padding="20" MinWidth="300" MaxWidth="500" Margin="0,0,0,20">
+                    <Border CornerRadius="10" Background="White" Padding="20" MinWidth="300" MaxWidth="700" Margin="0,0,0,20">
                         <DataGrid x:Name="AlertDataGrid" AutoGenerateColumns="False" HeadersVisibility="Column"
                                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
                                   Background="White" BorderThickness="0" RowBackground="White" AlternatingRowBackground="#F9FAFB">

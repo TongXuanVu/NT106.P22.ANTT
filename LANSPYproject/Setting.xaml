@@ -1,19 +1,67 @@
-﻿
-    <UserControl x:Class="LANSPYproject.Setting"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LANSPYproject"
-        mc:Ignorable="d"
-        Height="450" Width="800">
+﻿<UserControl x:Class="LANSPYproject.Setting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:LANSPYproject"
+             mc:Ignorable="d"
+             Height="450" Width="800">
+
+    <UserControl.Resources>
+        <!-- Toggle Switch Style -->
+        <Style x:Key="ModernToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid>
+                            <Border x:Name="SwitchBorder"
+                                    CornerRadius="12.5"
+                                    Background="#cbd5e1"
+                                    Width="50" Height="25"/>
+                            <Ellipse x:Name="SwitchKnob"
+                                     Width="21" Height="21"
+                                     Margin="2"
+                                     Fill="White"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="SwitchBorder" Property="Background" Value="#2563EB"/>
+                                <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Right"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Rounded Button Style -->
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="12"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="140"/>
+            <!-- giảm chiều rộng sidebar -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
-        <!-- Sidebar -->
 
         <!-- Main Content -->
         <Grid Grid.Column="1">
@@ -21,31 +69,34 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <!-- Main Content Section -->
-            <StackPanel Grid.Row="1" Margin="20">
+
+            <StackPanel Grid.Row="2" Margin="1,10,40,20">
                 <TextBlock Text="CÀI ĐẶT" FontSize="18" FontWeight="Bold" Foreground="#334155" Margin="0,0,0,10"/>
-                <Border Background="White" CornerRadius="16" Padding="20">
+                <Border Background="White"
+                        CornerRadius="16"
+                        Padding="30"
+                        Width="880"
+                        HorizontalAlignment="Left">
                     <StackPanel>
 
                         <!-- Toggle Options -->
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
-                            <CheckBox x:Name="CheckStartup" IsChecked="True" Margin="0,0,10,0"/>
+                            <ToggleButton x:Name="ToggleStartup" Style="{StaticResource ModernToggleButtonStyle}" IsChecked="True" Margin="0,0,10,0"/>
                             <TextBlock Text="Khởi động cùng Windows" VerticalAlignment="Center"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
-                            <CheckBox x:Name="CheckNewDevice" Margin="0,0,10,0"/>
+                            <ToggleButton x:Name="ToggleNewDevice" Style="{StaticResource ModernToggleButtonStyle}" Margin="0,0,10,0"/>
                             <TextBlock Text="Gửi cảnh báo khi phát hiện thiết bị mới" VerticalAlignment="Center"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
-                            <CheckBox x:Name="CheckDisconnect" IsChecked="True" Margin="0,0,10,0"/>
+                            <ToggleButton x:Name="ToggleDisconnect" Style="{StaticResource ModernToggleButtonStyle}" IsChecked="True" Margin="0,0,10,0"/>
                             <TextBlock Text="Gửi cảnh báo khi thiết bị mất kết nối" VerticalAlignment="Center"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
-                            <CheckBox x:Name="CheckUnknownMAC" IsChecked="True" Margin="0,0,10,0"/>
+                            <ToggleButton x:Name="ToggleUnknownMAC" Style="{StaticResource ModernToggleButtonStyle}" IsChecked="True" Margin="0,0,10,0"/>
                             <TextBlock Text="Gửi cảnh báo khi có thiết bị lạ (MAC chưa rõ)" VerticalAlignment="Center"/>
                         </StackPanel>
 
@@ -62,15 +113,28 @@
 
                         <!-- Action Buttons -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                            <Button Content="Lưu cài đặt" Width="150" Height="40" Background="#2563EB" Foreground="White" FontWeight="Bold" BorderBrush="{x:Null}" Margin="0,0,20,0"/>
-                            <Button Content="Khôi phục mặc định" Width="150" Height="40" Background="#2563EB" Foreground="White" FontWeight="Bold" BorderBrush="{x:Null}"/>
+                            <Button Content="Lưu cài đặt"
+                                    Width="150" Height="40"
+                                    Style="{StaticResource RoundedButtonStyle}"
+                                    Background="#2563EB"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderBrush="{x:Null}"
+                                    Margin="0,0,20,0"
+                                    Click="SaveSettings_Click"/>
+                            <Button Content="Khôi phục mặc định"
+                                    Width="150" Height="40"
+                                    Style="{StaticResource RoundedButtonStyle}"
+                                    Background="#2563EB"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderBrush="{x:Null}"
+                                    Click="ResetDefaults_Click"/>
                         </StackPanel>
 
                     </StackPanel>
                 </Border>
             </StackPanel>
-
-
         </Grid>
     </Grid>
 </UserControl>

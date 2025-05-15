@@ -115,3 +115,34 @@ C:\Users\Duc Thinh\Documents\Lập trình mạng\Đồ án\NT106.P22.ANTT\LANSPY
 C:\Users\Duc Thinh\Documents\Lập trình mạng\Đồ án\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.pdb
 C:\Users\Duc Thinh\Documents\Lập trình mạng\Đồ án\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.genruntimeconfig.cache
 C:\Users\Duc Thinh\Documents\Lập trình mạng\Đồ án\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\ref\LANSPYproject.dll
+F:\LTM\NT106.P22.ANTT\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.exe
+F:\LTM\NT106.P22.ANTT\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.deps.json
+F:\LTM\NT106.P22.ANTT\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.runtimeconfig.json
+F:\LTM\NT106.P22.ANTT\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.dll
+F:\LTM\NT106.P22.ANTT\LANSPYproject\bin\Debug\net8.0-windows\LANSPYproject.pdb
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Logs.baml
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Scanner.baml
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Alerts.g.cs
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Dashboard.g.cs
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Lanspy.g.cs
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Logs.g.cs
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Scanner.g.cs
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Setting.g.cs
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\App.g.cs
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject_MarkupCompile.cache
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject_MarkupCompile.lref
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Alerts.baml
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Dashboard.baml
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Lanspy.baml
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\Setting.baml
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.g.resources
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.GeneratedMSBuildEditorConfig.editorconfig
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.AssemblyInfoInputs.cache
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.AssemblyInfo.cs
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.csproj.CoreCompileInputs.cache
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.sourcelink.json
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.dll
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\refint\LANSPYproject.dll
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.pdb
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.genruntimeconfig.cache
+F:\LTM\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\ref\LANSPYproject.dll

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Duc Thinh\\Documents\\Lập trình mạng\\Đồ án\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj": {}
+    "F:\\LTM\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Duc Thinh\\Documents\\Lập trình mạng\\Đồ án\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj": {
+    "F:\\LTM\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Duc Thinh\\Documents\\Lập trình mạng\\Đồ án\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
+        "projectUniqueName": "F:\\LTM\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
         "projectName": "LANSPYproject",
-        "projectPath": "C:\\Users\\Duc Thinh\\Documents\\Lập trình mạng\\Đồ án\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
-        "packagesPath": "C:\\Users\\Duc Thinh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Duc Thinh\\Documents\\Lập trình mạng\\Đồ án\\NT106.P22.ANTT\\LANSPYproject\\obj\\",
+        "projectPath": "F:\\LTM\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "F:\\LTM\\NT106.P22.ANTT\\LANSPYproject\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Duc Thinh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
