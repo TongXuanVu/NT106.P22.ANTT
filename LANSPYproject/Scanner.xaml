@@ -27,26 +27,32 @@
             </WrapPanel>
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Left">
-                <Button x:Name="ScanButton" Content="Quét mạng" Width="100" Padding="8,4" FontWeight="Bold"
-                        BorderThickness="0" Click="ScanButton_Click" Margin="0,0,10,0" Cursor="Hand">
+                <Button x:Name="ScanButton" Content="Quét mạng" Width="120" Height="35" Padding="8,4" FontWeight="Bold"
+                    BorderThickness="0" Click="ScanButton_Click" Margin="0,0,10,0" Cursor="Hand" Foreground="White" FontSize="14">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border x:Name="border" Background="#4F46E5" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="20" Padding="{TemplateBinding Padding}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal" />
                                         <VisualState x:Name="MouseOver">
                                             <Storyboard>
                                                 <ColorAnimation Storyboard.TargetName="border"
-                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                To="#6366F1" Duration="0:0:0.3" />
+                                                Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].Color"
+                                                To="#1A47B8" Duration="0:0:0.3" />
+                                                <ColorAnimation Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].Color"
+                                                To="#4B7BFF" Duration="0:0:0.3" />
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Disabled">
                                             <Storyboard>
                                                 <ColorAnimation Storyboard.TargetName="border"
-                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                To="#A9A9A9" Duration="0:0:0.3" />
+                                                Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].Color"
+                                                To="#A9A9A9" Duration="0:0:0.3" />
+                                                <ColorAnimation Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].Color"
+                                                To="#A9A9A9" Duration="0:0:0.3" />
                                             </Storyboard>
                                         </VisualState>
                                     </VisualStateGroup>
@@ -55,9 +61,16 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" x:Name="buttonBackground">
+                            <GradientStop Color="#123288" Offset="0"/>
+                            <GradientStop Color="#295EEC" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                             <Setter Property="Foreground" Value="White" />
+                            <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter Property="Foreground" Value="#DDDDDD"/>
@@ -68,26 +81,33 @@
                     </Button.Style>
                 </Button>
 
-                <Button x:Name="StopButton" Content="Dừng quét" Width="100" Padding="8,4" FontWeight="Bold"
-                        BorderThickness="0" Click="StopButton_Click" IsEnabled="False" Cursor="Hand">
+
+                <Button x:Name="StopButton" Content="Dừng quét" Width="120" Height="35" Padding="8,4" FontWeight="Bold"
+        BorderThickness="0" Click="StopButton_Click" IsEnabled="False" Cursor="Hand" Foreground="White" FontSize="14">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border x:Name="border" Background="#EF4444" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="20" Padding="{TemplateBinding Padding}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal" />
                                         <VisualState x:Name="MouseOver">
                                             <Storyboard>
                                                 <ColorAnimation Storyboard.TargetName="border"
-                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                To="#F87171" Duration="0:0:0.3" />
+                                                Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].Color"
+                                                To="#F87171" Duration="0:0:0.3" />
+                                                <ColorAnimation Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].Color"
+                                                To="#FCA5A5" Duration="0:0:0.3" />
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Disabled">
                                             <Storyboard>
                                                 <ColorAnimation Storyboard.TargetName="border"
-                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                To="#A9A9A9" Duration="0:0:0.3" />
+                                                Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].Color"
+                                                To="#A9A9A9" Duration="0:0:0.3" />
+                                                <ColorAnimation Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].Color"
+                                                To="#A9A9A9" Duration="0:0:0.3" />
                                             </Storyboard>
                                         </VisualState>
                                     </VisualStateGroup>
@@ -96,9 +116,16 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" x:Name="buttonBackgroundStop">
+                            <GradientStop Color="#EF4444" Offset="0"/>
+                            <GradientStop Color="#DC2626" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                             <Setter Property="Foreground" Value="White" />
+                            <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter Property="Foreground" Value="#DDDDDD"/>
@@ -108,6 +135,8 @@
                         </Style>
                     </Button.Style>
                 </Button>
+
+
             </StackPanel>
 
             <TextBlock Grid.Row="3" Text="Danh sách thiết bị" FontWeight="Bold" Margin="0,0,0,10"/>

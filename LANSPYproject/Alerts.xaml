@@ -84,11 +84,6 @@
                                                     </LinearGradientBrush>
                                                 </Setter.Value>
                                             </Setter>
-                                            <!--<Setter Property="RenderTransform">
-                                                <Setter.Value>
-                                                    <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
-                                                </Setter.Value>
-                                            </Setter>-->
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
