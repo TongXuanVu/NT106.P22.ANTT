@@ -4,75 +4,92 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:LANSPYproject"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              Background="#F5F7FA"
              mc:Ignorable="d">
-    <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <StackPanel Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                <TextBlock Text="🧭 Tổng quan mạng"
-                           FontWeight="Bold"
-                           FontSize="18"
-                           Margin="0,0,0,20"
-                           HorizontalAlignment="Center" />
 
-                <Border Background="White" CornerRadius="10" Padding="20" MinWidth="300" MaxWidth="600" Margin="0,0,0,20">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="20" MinWidth="600" MinHeight="600">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Tiêu đề tổng quan mạng -->
+                <RowDefinition Height="Auto" />
+                <!-- Hàng trên: 2 phần thông tin -->
+                <RowDefinition Height="*" />
+                <!-- Hàng dưới: biểu đồ -->
+            </Grid.RowDefinitions>
+
+            <!-- Tiêu đề Tổng quan mạng -->
+            <TextBlock Text="🧭 Tổng quan mạng"
+                       FontWeight="Bold"
+                       FontSize="32"
+                       HorizontalAlignment="Center"
+                       Margin="0,-14,0,35"
+                       Grid.Row="0" />
+
+            <!-- Hàng trên gồm 2 cột -->
+            <Grid Margin="0,45,0,0" Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Thông tin mạng -->
+                <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,19,20" Grid.Column="0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <TextBlock Text="📶" Margin="0,0,5,0"/>
+                            <TextBlock Text="SSID:" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="{Binding WifiSSID}" Margin="10,0,0,0" FontSize="15" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <TextBlock Text="📡" Margin="0,0,5,0"/>
+                            <TextBlock Text="BSSID:" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="{Binding WifiBSSID}" Margin="10,0,0,0" FontSize="15" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <TextBlock Text="⚡" Margin="0,0,5,0"/>
+                            <TextBlock Text="Tốc độ kết nối:" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="{Binding WifiSpeed}" Margin="10,0,0,0" FontSize="15"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <TextBlock Text="⬆️" Margin="0,0,5,0"/>
+                            <TextBlock Text="Upload:" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="{Binding UploadSpeed}" Margin="10,0,0,0" FontSize="15"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <TextBlock Text="⬇️" Margin="0,0,5,0"/>
+                            <TextBlock Text="Download:" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="{Binding DownloadSpeed}" Margin="10,0,0,0" FontSize="15"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <TextBlock Text="⏱" Margin="0,0,5,0"/>
+                            <TextBlock Text="Độ trễ:" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="{Binding WifiLatency}" Margin="10,0,0,0" FontSize="15"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Thiết bị kết nối -->
+                <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20" Grid.Column="1">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,5">
                             <TextBlock Text="📱" Margin="0,0,5,0"/>
-                            <TextBlock Text="Thiết bị đang kết nối:" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding OnlineDevicesCount}" Margin="10,0,0,0"/>
-                            <TextBlock Text=" / " />
-                            <TextBlock Text="{Binding TotalDevicesCount}" Margin="10,0,0,0"/>
+                            <TextBlock Text="Thiết bị đang kết nối:" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="{Binding OnlineDevicesCount}" Margin="10,0,0,0" FontSize="15"/>
+                            <TextBlock Text=" / " FontSize="15"/>
+                            <TextBlock Text="{Binding TotalDevicesCount}" Margin="10,0,0,0" FontSize="15"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,10">
                             <TextBlock Text="👁" Margin="0,0,5,0"/>
-                            <TextBlock Text="Cảnh báo thiết bị lạ:" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding StrangeDeviceAlerts}" Margin="10,0,0,0"/>
+                            <TextBlock Text="Cảnh báo thiết bị lạ:" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="{Binding StrangeDeviceAlerts}" Margin="10,0,0,0" FontSize="15"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,10">
                             <TextBlock Text="🔄" Margin="0,0,5,0"/>
-                            <TextBlock Text="Lần quét gần nhất:" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding LastScanTime}" Margin="10,0,0,0"/>
+                            <TextBlock Text="Lần quét gần nhất:" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="{Binding LastScanTime}" Margin="10,0,0,0" FontSize="15"/>
                         </StackPanel>
-
-                        <Separator Margin="0,15"/>
-
-                        <StackPanel Orientation="Horizontal" Margin="0,5">
-                            <TextBlock Text="📶" Margin="0,0,5,0"/>
-                            <TextBlock Text="SSID:" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding WifiSSID}" Margin="10,0,0,0"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Margin="0,5">
-                            <TextBlock Text="📡" Margin="0,0,5,0"/>
-                            <TextBlock Text="BSSID:" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding WifiBSSID}" Margin="10,0,0,0"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Margin="0,5">
-                            <TextBlock Text="⚡" Margin="0,0,5,0"/>
-                            <TextBlock Text="Tốc độ kết nối:" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding WifiSpeed}" Margin="10,0,0,0"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Margin="0,5">
-                            <TextBlock Text="⬆️" Margin="0,0,5,0"/>
-                            <TextBlock Text="Upload:" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding UploadSpeed}" Margin="10,0,0,0"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Margin="0,5">
-                            <TextBlock Text="⬇️" Margin="0,0,5,0"/>
-                            <TextBlock Text="Download:" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding DownloadSpeed}" Margin="10,0,0,0"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Margin="0,5">
-                            <TextBlock Text="⏱" Margin="0,0,5,0"/>
-                            <TextBlock Text="Độ trễ:" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding WifiLatency}" Margin="10,0,0,0"/>
-                        </StackPanel>
-
                         <Button Width="120" Height="35" Content="Cập nhật" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="10,20" Click="UpdateButton_Click">
                             <Button.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -110,7 +127,39 @@
                         </Button>
                     </StackPanel>
                 </Border>
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+            </Grid>
+
+            <!-- Biểu đồ kết nối mạng nằm dưới -->
+            <Border Background="White" CornerRadius="10" Padding="20" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Text="📊 Biểu đồ kết nối mạng"
+                               FontWeight="Bold"
+                               FontSize="16"
+                               HorizontalAlignment="Center" />
+
+                    <TextBlock Text="Chú thích: "
+                               FontWeight="SemiBold"
+                               FontSize="14"
+                               Margin="0,10,0,10"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="- Biểu đồ hiển thị tốc độ tải lên (Upload) và tốc độ tải xuống (Download)."
+                               FontSize="12"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="- Tốc độ được tính theo đơn vị KB/s (Kilobytes per second)."
+                               FontSize="12"
+                               HorizontalAlignment="Center" />
+
+                    <lvc:CartesianChart x:Name="TrafficChart" Height="270" Width="1000" Series="{Binding ChartSeries}" LegendLocation="Right">
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Tốc độ (KB/s)" LabelFormatter="{Binding YFormatter}" FontSize="16" />
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Thời gian (HH:mm:ss)" LabelFormatter="{Binding XFormatter}" FontSize="16" />
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+
 </UserControl>
