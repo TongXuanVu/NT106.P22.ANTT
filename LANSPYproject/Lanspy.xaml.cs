@@ -11,13 +11,20 @@ namespace LANSPYproject
     {
         private DispatcherTimer wifiTimer;
 
+        // Khởi tạo và lưu các instance trang
+        private Dashboard dashboardPage = new Dashboard();
+        private Scanner scannerPage = new Scanner();
+        private Logs logsPage = new Logs();
+        private Alerts alertsPage = new Alerts();
+        private Setting settingPage = new Setting();
+
         public Lanspy()
         {
             InitializeComponent();
 
             UpdateWifiDisplay();
 
-            MainContent.Content = new Dashboard();
+            MainContent.Content = dashboardPage;
 
             // Cập nhật tên Wifi mỗi 10 giây
             wifiTimer = new DispatcherTimer();
@@ -80,27 +87,27 @@ namespace LANSPYproject
 
         private void DashboardButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new Dashboard();
+            MainContent.Content = dashboardPage;
         }
 
         private void ScannerButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new Scanner();
+            MainContent.Content = scannerPage;
         }
 
         private void LogsButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new Logs();
+            MainContent.Content = logsPage;
         }
 
         private void AlertsButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new Alerts();
+            MainContent.Content = alertsPage;
         }
 
         private void SettingButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new Setting();
+            MainContent.Content = settingPage;
         }
     }
 }

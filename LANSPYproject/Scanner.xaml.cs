@@ -12,9 +12,47 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Globalization;
+using System.Windows.Media;
 
 namespace LANSPYproject
 {
+    public class BoolToOnlineOfflineConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool b)
+                return b ? "Online" : "Offline";
+            return "Offline";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string s)
+                return s.Equals("Online", StringComparison.OrdinalIgnoreCase);
+            return false;
+        }
+    }
+
+    public class BoolToBrushConverter : IValueConverter
+    {
+        private static readonly Brush OnlineBrush = new SolidColorBrush(Color.FromRgb(0, 176, 80)); // xanh lá
+        private static readonly Brush OfflineBrush = new SolidColorBrush(Color.FromRgb(255, 59, 48)); // đỏ
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool b)
+                return b ? OnlineBrush : OfflineBrush;
+            return OfflineBrush;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+    }
+
     public partial class Scanner : UserControl, INotifyPropertyChanged
     {
         private static readonly Dictionary<string, string> OUIManufacturers = new Dictionary<string, string>
@@ -44,6 +82,8 @@ namespace LANSPYproject
             }
         }
 
+        private bool hasScannedOnce = false;
+
         public Scanner()
         {
             InitializeComponent();
@@ -61,8 +101,15 @@ namespace LANSPYproject
 
         private void ScanButton_Click(object sender, RoutedEventArgs e)
         {
-            Devices.Clear();
-            AddLocalDevice();
+            if (!hasScannedOnce)
+            {
+                Devices.Clear();
+                AddLocalDevice();
+                hasScannedOnce = true;
+
+                ScanButton.Content = "Cập nhật";
+            }
+
             UpdateCurrentNetworkRange();
             StartScanning();
         }
@@ -149,7 +196,6 @@ namespace LANSPYproject
 
             if (mac == null) mac = "Unknown";
 
-            // Không thêm nếu đã có
             if (Devices.Any(d => d.IP == localIP)) return;
 
             Devices.Insert(0, new NetworkDevice
@@ -159,7 +205,8 @@ namespace LANSPYproject
                 MAC = mac,
                 HostName = Dns.GetHostName(),
                 Manufacturer = "Local Machine",
-                ScanDate = DateTime.Now.ToString("dd/MM, hh:mm tt")
+                ScanDate = DateTime.Now.ToString("dd/MM, hh:mm tt"),
+                IsOn = true
             });
         }
 
@@ -188,8 +235,16 @@ namespace LANSPYproject
 
             cts = new CancellationTokenSource();
 
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                foreach (var device in Devices)
+                {
+                    device.IsOn = false;
+                }
+            });
+
             StatusTextBlock.Text = "Đang quét...";
-            StatusTextBlock.Foreground = System.Windows.Media.Brushes.Green;
+            StatusTextBlock.Foreground = Brushes.Green;
             ScanButton.IsEnabled = false;
             StopButton.IsEnabled = true;
 
@@ -200,7 +255,7 @@ namespace LANSPYproject
             catch (OperationCanceledException)
             {
                 StatusTextBlock.Text = "Quét bị dừng";
-                StatusTextBlock.Foreground = System.Windows.Media.Brushes.OrangeRed;
+                StatusTextBlock.Foreground = Brushes.OrangeRed;
             }
             finally
             {
@@ -210,7 +265,7 @@ namespace LANSPYproject
                 if (StatusTextBlock.Text != "Quét bị dừng")
                 {
                     StatusTextBlock.Text = "Quét hoàn thành";
-                    StatusTextBlock.Foreground = System.Windows.Media.Brushes.Blue;
+                    StatusTextBlock.Foreground = Brushes.Blue;
                 }
 
                 ScanButton.IsEnabled = true;
@@ -266,9 +321,14 @@ namespace LANSPYproject
                                             MAC = "Đang lấy...",
                                             HostName = "",
                                             Manufacturer = "",
-                                            ScanDate = DateTime.Now.ToString("dd/MM, hh:mm tt")
+                                            ScanDate = DateTime.Now.ToString("dd/MM, hh:mm tt"),
+                                            IsOn = true
                                         };
                                         Devices.Add(device);
+                                    }
+                                    else
+                                    {
+                                        device.IsOn = true;
                                     }
                                 });
 
@@ -278,9 +338,30 @@ namespace LANSPYproject
                                     await UpdateNameForDevice(ip, device);
                                 }
                             }
+                            else
+                            {
+                                App.Current.Dispatcher.Invoke(() =>
+                                {
+                                    var device = Devices.FirstOrDefault(d => d.IP == ip);
+                                    if (device != null)
+                                    {
+                                        device.IsOn = false;
+                                    }
+                                });
+                            }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                        App.Current.Dispatcher.Invoke(() =>
+                        {
+                            var device = Devices.FirstOrDefault(d => d.IP == ip);
+                            if (device != null)
+                            {
+                                device.IsOn = false;
+                            }
+                        });
+                    }
                     finally
                     {
                         semaphore.Release();
@@ -391,7 +472,7 @@ namespace LANSPYproject
                 }
                 catch
                 {
-                    // Giữ nguyên nếu lỗi
+                    // giữ nguyên nếu lỗi
                 }
             });
         }
@@ -446,6 +527,13 @@ namespace LANSPYproject
 
     public class NetworkDevice : INotifyPropertyChanged
     {
+        private bool _isOn;
+        public bool IsOn
+        {
+            get => _isOn;
+            set { _isOn = value; OnPropertyChanged(); }
+        }
+
         private int _id;
         private string _ip = "";
         private string _mac = "";

@@ -177,3 +177,4 @@ F:\LTMMT\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\refint\LANSPYproj
 F:\LTMMT\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.pdb
 F:\LTMMT\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\LANSPYproject.genruntimeconfig.cache
 F:\LTMMT\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\ref\LANSPYproject.dll
+C:\Users\Duc Thinh\Documents\Lập trình mạng\Đồ án\NT106.P22.ANTT\LANSPYproject\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
