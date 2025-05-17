@@ -3,20 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="#F5F7FA">
     <Grid>
-
-        <!-- Main content -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Top Header -->
-            <!-- Scanner Content -->
             <StackPanel Grid.Row="1" Margin="20">
-
                 <!-- Search Section -->
-                <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20" >
+                <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
                     <StackPanel>
                         <TextBlock Text="Tìm kiếm" FontSize="18" FontWeight="Bold" Foreground="#1E3A8A" Margin="0,0,0,10"/>
                         <Grid Margin="0,10,0,0">
@@ -31,29 +26,29 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Text="IP Address" Grid.Row="0" Grid.Column="0" Margin="0,5"/>
-                            <TextBox Text="192.168.1.10" Grid.Row="0" Grid.Column="1" Margin="10,5"/>
+                            <TextBox x:Name="IPTextBox" Text="192.168.1.10" Grid.Row="0" Grid.Column="1" Margin="10,5"/>
 
                             <TextBlock Text="MAC Address" Grid.Row="1" Grid.Column="0" Margin="0,5"/>
-                            <TextBox Text="AA-BB-CC-DD-EE-FF" Grid.Row="1" Grid.Column="1" Margin="10,5"/>
+                            <TextBox x:Name="MACTexBox" Text="AA-BB-CC-DD-EE-FF" Grid.Row="1" Grid.Column="1" Margin="10,5"/>
 
                             <TextBlock Text="Thiết bị" Grid.Row="2" Grid.Column="0" Margin="0,5"/>
-                            <TextBox Text="Laptop" Grid.Row="2" Grid.Column="1" Margin="10,5"/>
+                            <TextBox x:Name="DeviceTextBox" Text="Laptop" Grid.Row="2" Grid.Column="1" Margin="10,5"/>
                         </Grid>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10">
                             <StackPanel Margin="0,0,20,0">
-                                <TextBlock Text="Thời gian từ" Margin="0,0,0,5" />
-
-                                <DatePicker SelectedDate="2025-02-10"/>
+                                <TextBlock Text="Thời gian từ" Margin="0,0,0,5"/>
+                                <DatePicker x:Name="FromDatePicker" SelectedDate="2025-02-10"/>
                             </StackPanel>
                             <StackPanel>
                                 <TextBlock Text="Đến" Margin="0,0,0,5"/>
-                                <DatePicker SelectedDate="2025-02-14"/>
+                                <DatePicker x:Name="ToDatePicker" SelectedDate="2025-02-14"/>
                             </StackPanel>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                            <Button Width="120" Height="35" Content="Tìm kiếm" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,20,0">
+                            <Button Width="120" Height="35" Content="Tìm kiếm" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,20,0"
+                                    Click="SearchButton_Click">
                                 <Button.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                         <GradientStop Color="#123288" Offset="0"/>
@@ -89,7 +84,8 @@
                                 </Button.Style>
                             </Button>
 
-                            <Button Width="120" Height="35" Content="Làm mới" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand">
+                            <Button Width="120" Height="35" Content="Làm mới" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand"
+                                    Click="ClearButton_Click">
                                 <Button.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                         <GradientStop Color="#123288" Offset="0"/>
@@ -125,88 +121,35 @@
                                 </Button.Style>
                             </Button>
                         </StackPanel>
-
                     </StackPanel>
                 </Border>
 
                 <!-- Logs Table -->
                 <Border Background="White" CornerRadius="10" Padding="10">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" >
+                        <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Lịch sử hoạt động mạng" FontSize="18" FontWeight="Bold" Foreground="#1E3A8A"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Text="Tổng số log: 325" Margin="10,7,10,0"/>
-                                <TextBlock Text="Thiết bị lạ: 12" Margin="10,7,10,0"/>
+                                <TextBlock x:Name="TotalLogsTextBlock" Text="Tổng số log: 0" Margin="10,7,10,0"/>
+                                <TextBlock x:Name="StrangeDevicesTextBlock" Text="Thiết bị lạ: 0" Margin="10,7,10,0"/>
                             </StackPanel>
                         </StackPanel>
 
-                        <!-- Table Header -->
-                        <Grid Margin="0,10,0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="100"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="SL No" FontWeight="Bold"/>
-                            <TextBlock Text="MAC Address" Grid.Column="1" FontWeight="Bold"/>
-                            <TextBlock Text="IP Address" Grid.Column="2" FontWeight="Bold"/>
-                            <TextBlock Text="Thời gian" Grid.Column="3" FontWeight="Bold"/>
-                            <TextBlock Text="Ghi chú" Grid.Column="4" FontWeight="Bold"/>
-                        </Grid>
+                        <!-- DataGrid thay cho các dòng Grid -->
+                        <DataGrid x:Name="LogsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Margin="0,10,0,0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="SL No" Width="50" Binding="{Binding ID}"/>
+                                <DataGridTextColumn Header="MAC Address" Width="200" Binding="{Binding MAC}"/>
+                                <DataGridTextColumn Header="IP Address" Width="150" Binding="{Binding IP}"/>
+                                <DataGridTextColumn Header="Tên thiết bị" Width="200" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Thời gian" Width="150" Binding="{Binding ScanDate}"/>
+                                <DataGridTextColumn Header="Ghi chú" Width="100" Binding="{Binding Manufacturer}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
-                        <!-- Log Row 1 -->
-                        <Grid Margin="0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="100"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="01"/>
-                            <TextBlock Text="AA-BB-CC-DD-EE-FF" Grid.Column="1"/>
-                            <TextBlock Text="192.168.1.10" Grid.Column="2"/>
-                            <TextBlock Text="2025-04-10 13:30" Grid.Column="3"/>
-                            <TextBlock Text="Tin cậy" Foreground="Green" Grid.Column="4"/>
-                        </Grid>
-
-                        <!-- Log Row 2 -->
-                        <Grid Margin="0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="100"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="02"/>
-                            <TextBlock Text="FF-EE-DD-CC-BB-AA" Grid.Column="1"/>
-                            <TextBlock Text="192.168.1.24" Grid.Column="2"/>
-                            <TextBlock Text="2025-04-10 13:31" Grid.Column="3"/>
-                            <TextBlock Text="Tin cậy" Foreground="Green" Grid.Column="4"/>
-                        </Grid>
-
-                        <!-- Log Row 3 -->
-                        <Grid Margin="0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="100"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="03"/>
-                            <TextBlock Text="11-22-33-44-55-66" Grid.Column="1"/>
-                            <TextBlock Text="192.168.1.45" Grid.Column="2"/>
-                            <TextBlock Text="2025-04-10 13:33" Grid.Column="3"/>
-                            <TextBlock Text="Lạ" Foreground="Red" Grid.Column="4"/>
-                        </Grid>
-
-                        <!-- Buttons -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                            <Button Width="120" Height="35" Content="Xuất báo cáo" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,20,0">
+                            <Button Width="120" Height="35" Content="Xuất báo cáo" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,20,0"
+                                    Click="ExportReportButton_Click">
                                 <Button.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                         <GradientStop Color="#123288" Offset="0"/>
@@ -219,8 +162,8 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border Background="{TemplateBinding Background}" 
-                                                        CornerRadius="20" 
-                                                        Padding="8,4">
+                                                            CornerRadius="20" 
+                                                            Padding="8,4">
                                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </Border>
                                                 </ControlTemplate>
@@ -242,7 +185,8 @@
                                 </Button.Style>
                             </Button>
 
-                            <Button Width="180" Height="35" Content="Xoá log cũ (> 7 ngày)" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,20,0">
+                            <Button Width="180" Height="35" Content="Xoá log cũ (> 7 ngày)" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,20,0"
+                                    Click="DeleteOldLogsButton_Click">
                                 <Button.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                         <GradientStop Color="#123288" Offset="0"/>
@@ -255,8 +199,8 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border Background="{TemplateBinding Background}" 
-                                                        CornerRadius="20" 
-                                                        Padding="8,4">
+                                                            CornerRadius="20" 
+                                                            Padding="8,4">
                                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </Border>
                                                 </ControlTemplate>
@@ -280,8 +224,6 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-
-
             </StackPanel>
         </Grid>
     </Grid>

@@ -18,6 +18,8 @@ using System.Windows.Media;
 
 namespace LANSPYproject
 {
+
+
     public class BoolToOnlineOfflineConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -55,6 +57,8 @@ namespace LANSPYproject
 
     public partial class Scanner : UserControl, INotifyPropertyChanged
     {
+        public Logs? LogsControl { get; set; }
+
         private static readonly Dictionary<string, string> OUIManufacturers = new Dictionary<string, string>
         {
             {"00:1A:2B", "Cisco Systems"},
@@ -228,6 +232,8 @@ namespace LANSPYproject
             return null;
         }
 
+
+
         private async void StartScanning()
         {
             if (cts != null)
@@ -270,12 +276,23 @@ namespace LANSPYproject
 
                 ScanButton.IsEnabled = true;
                 StopButton.IsEnabled = false;
+
+                LogsControl?.UpdateDevices(Devices);
+
             }
         }
 
         private void StopScanning()
         {
             cts?.Cancel();
+        }
+
+        private void ReassignIDs()
+        {
+            for (int i = 0; i < Devices.Count; i++)
+            {
+                Devices[i].ID = i;
+            }
         }
 
         private async Task ScanNetworkAsync(CancellationToken token)
@@ -325,6 +342,8 @@ namespace LANSPYproject
                                             IsOn = true
                                         };
                                         Devices.Add(device);
+
+                                        ReassignIDs();
                                     }
                                     else
                                     {

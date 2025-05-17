@@ -7,6 +7,7 @@ using System.Windows.Threading;
 
 namespace LANSPYproject
 {
+
     public partial class Lanspy : Window
     {
         private DispatcherTimer wifiTimer;
@@ -17,7 +18,6 @@ namespace LANSPYproject
         private Logs logsPage = new Logs();
         private Alerts alertsPage = new Alerts();
         private Setting settingPage = new Setting();
-
         public Lanspy()
         {
             InitializeComponent();
@@ -25,6 +25,9 @@ namespace LANSPYproject
             UpdateWifiDisplay();
 
             MainContent.Content = dashboardPage;
+
+            // Gán tham chiếu LogsControl trong Scanner
+            scannerPage.LogsControl = logsPage;
 
             // Cập nhật tên Wifi mỗi 10 giây
             wifiTimer = new DispatcherTimer();
