@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Media;
+using System.Data.SqlClient;
 
 namespace LANSPYproject
 {
@@ -342,6 +343,7 @@ namespace LANSPYproject
                                             IsOn = true
                                         };
                                         Devices.Add(device);
+                                        SaveDeviceToDatabase(device);
 
                                         ReassignIDs();
                                     }
@@ -542,6 +544,26 @@ namespace LANSPYproject
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+        private void SaveDeviceToDatabase(NetworkDevice device)
+{
+    string connectionString = @"Server=.\SQLEXPRESS;Database=LANSpyDB;Trusted_Connection=True;";
+
+    using (SqlConnection conn = new SqlConnection(connectionString))
+    {
+        string query = @"INSERT INTO scanner_devices (ip, mac, name, date, status)
+                         VALUES (@ip, @mac, @name, @date, @status)";
+
+        SqlCommand cmd = new SqlCommand(query, conn);
+        cmd.Parameters.AddWithValue("@ip", device.IP ?? "Unknown");
+        cmd.Parameters.AddWithValue("@mac", device.MAC ?? "Unknown");
+        cmd.Parameters.AddWithValue("@name", device.Name ?? "Unknown");
+        cmd.Parameters.AddWithValue("@date", DateTime.Now);
+        cmd.Parameters.AddWithValue("@status", device.IsOn ? "Online" : "Offline");
+        cmd.Parameters.AddWithValue("@id", device.ID);
+                conn.Open();
+        cmd.ExecuteNonQuery();
+    }
+}
     }
 
     public class NetworkDevice : INotifyPropertyChanged
@@ -628,5 +650,7 @@ namespace LANSPYproject
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
+
     }
+
 }
