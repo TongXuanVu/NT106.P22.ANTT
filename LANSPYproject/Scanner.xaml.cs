@@ -15,7 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Media;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace LANSPYproject
 {
@@ -296,6 +296,41 @@ namespace LANSPYproject
             }
         }
 
+        private string GetWifiName()
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo("netsh", "wlan show interfaces")
+                {
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using (Process process = Process.Start(psi))
+                {
+                    string output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+
+                    Regex regex = new Regex(@"^\s*SSID\s*:\s*(.+)$", RegexOptions.Multiline);
+                    Match match = regex.Match(output);
+                    if (match.Success)
+                    {
+                        string ssid = match.Groups[1].Value.Trim();
+                        if (ssid.Equals("BSSID", StringComparison.OrdinalIgnoreCase))
+                            return "Unknown";
+                        return ssid;
+                    }
+                }
+            }
+            catch
+            {
+                // Lỗi thì trả về Unknown
+            }
+            return "Unknown";
+        }
+
+
         private async Task ScanNetworkAsync(CancellationToken token)
         {
             var ipSubnet = GetWiFiIPAndSubnetMask() ?? GetEthernetIPAndSubnetMask();
@@ -343,7 +378,6 @@ namespace LANSPYproject
                                             IsOn = true
                                         };
                                         Devices.Add(device);
-                                        SaveDeviceToDatabase(device);
 
                                         ReassignIDs();
                                     }
@@ -358,6 +392,7 @@ namespace LANSPYproject
                                     await UpdateMacForDevice(ip, device);
                                     await UpdateNameForDevice(ip, device);
                                 }
+                                SaveDeviceToDatabase(device);
                             }
                             else
                             {
@@ -418,7 +453,7 @@ namespace LANSPYproject
 
                 string baseIp = $"{ipParts[0]}.{ipParts[1]}.{ipParts[2]}";
 
-                for (int i = 1; i <= 254; i++)
+                for (int i = 2; i <= 254; i++)
                 {
                     ips.Add($"{baseIp}.{i}");
                 }
@@ -545,25 +580,43 @@ namespace LANSPYproject
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
         private void SaveDeviceToDatabase(NetworkDevice device)
-{
-    string connectionString = @"Server=.\SQLEXPRESS;Database=LANSpyDB;Trusted_Connection=True;";
+ {
+        string connectionString = "server=localhost;user id=root;password=2104230122;database=LANSpyDB;charset=utf8";
 
-    using (SqlConnection conn = new SqlConnection(connectionString))
-    {
-        string query = @"INSERT INTO scanner_devices (ip, mac, name, date, status)
-                         VALUES (@ip, @mac, @name, @date, @status)";
 
-        SqlCommand cmd = new SqlCommand(query, conn);
-        cmd.Parameters.AddWithValue("@ip", device.IP ?? "Unknown");
-        cmd.Parameters.AddWithValue("@mac", device.MAC ?? "Unknown");
-        cmd.Parameters.AddWithValue("@name", device.Name ?? "Unknown");
-        cmd.Parameters.AddWithValue("@date", DateTime.Now);
-        cmd.Parameters.AddWithValue("@status", device.IsOn ? "Online" : "Offline");
-        cmd.Parameters.AddWithValue("@id", device.ID);
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
                 conn.Open();
-        cmd.ExecuteNonQuery();
-    }
-}
+
+                string create_table = @"CREATE TABLE IF NOT EXISTS scanner_devices(
+                                        id INT AUTO_INCREMENT PRIMARY KEY,
+                                        name_wifi VARCHAR(100) CHARACTER SET utf8mb4,
+                                        ip        VARCHAR(15)  CHARACTER SET utf8mb4,
+                                        mac       VARCHAR(20)  CHARACTER SET utf8mb4,
+                                        name      VARCHAR(100) CHARACTER SET utf8mb4,
+                                        date      DATETIME,
+                                        UNIQUE KEY ux_device (name_wifi, ip, mac)
+                                    );";
+                new MySqlCommand(create_table, conn).ExecuteNonQuery();
+
+                string query = @"INSERT IGNORE INTO scanner_devices
+                                    (name_wifi, ip, mac, name, date)
+                                VALUES
+                                    (@name_wifi, @ip, @mac, @name, @date);
+                                ";
+
+                using var cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@name_wifi", GetWifiName() ?? "Unknown");
+                cmd.Parameters.AddWithValue("@ip", device.IP ?? "Unknown");
+                cmd.Parameters.AddWithValue("@mac", device.MAC ?? "Unknown");
+                cmd.Parameters.AddWithValue("@name", device.Name ?? "Unknown");
+                cmd.Parameters.AddWithValue("@date", DateTime.Now);
+
+                cmd.ExecuteNonQuery();
+            }
+
+
+        }
     }
 
     public class NetworkDevice : INotifyPropertyChanged
