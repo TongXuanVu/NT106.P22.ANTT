@@ -1,64 +1,72 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "F:\\NT106-LTM\\NT106.P22.ANTT\\",
+  "WorkspaceRootPath": "D:\\LTM-sapdead\\NT106.P22.ANTT\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\logs.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\alerts.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\alerts.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\alerts.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\alerts.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\logs.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\logs.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\logs.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\logs.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\logs.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\scanner.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\scanner.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\scanner.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\lanspy.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\lanspy.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\lanspy.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\lanspy.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\lanspy.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\lanspy.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\dashboard.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\dashboard.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\dashboard.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\networkconnectiondevice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\networkconnectiondevice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\networkconnectiondevice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\dashboard.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\dashboard.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\dashboard.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\setting.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\setting.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\setting.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\lanspyproject.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\lanspyproject.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\lanspyproject.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\settingsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\settingsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\settingsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\setting.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\setting.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\setting.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\scanner.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\scanner.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\scanner.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Duc Thinh\\AppData\\Local\\Temp\\.vsdbgsrc\\516d317e9ae9f2429b1d02c152e8e0a653a67aff985d1b790249410a3af4dc9f\\Chart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|f:\\nt106-ltm\\nt106.p22.antt\\lanspyproject\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|d:\\ltm-sapdead\\nt106.p22.antt\\lanspyproject\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{35C13283-2374-44A3-B22C-DE15445A16DF}|LANSPYproject\\LANSPYproject.csproj|solutionrelative:lanspyproject\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
@@ -69,39 +77,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "Alerts.xaml.cs",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Alerts.xaml.cs",
+              "RelativeDocumentMoniker": "LANSPYproject\\Alerts.xaml.cs",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Alerts.xaml.cs",
+              "RelativeToolTip": "LANSPYproject\\Alerts.xaml.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAkwC8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T15:33:00.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Alerts.xaml",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Alerts.xaml",
+              "RelativeDocumentMoniker": "LANSPYproject\\Alerts.xaml",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Alerts.xaml",
+              "RelativeToolTip": "LANSPYproject\\Alerts.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-07-06T15:32:54.259Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Lanspy.xaml",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Lanspy.xaml",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Lanspy.xaml",
               "RelativeDocumentMoniker": "LANSPYproject\\Lanspy.xaml",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Lanspy.xaml",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Lanspy.xaml",
               "RelativeToolTip": "LANSPYproject\\Lanspy.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-05-17T12:22:40.781Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Scanner.xaml.cs",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Scanner.xaml.cs",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Scanner.xaml.cs",
               "RelativeDocumentMoniker": "LANSPYproject\\Scanner.xaml.cs",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Scanner.xaml.cs",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Scanner.xaml.cs",
               "RelativeToolTip": "LANSPYproject\\Scanner.xaml.cs",
               "ViewState": "AgIAAPAAAAAAAAAAAADgvyMCAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T12:32:02.911Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T12:32:02.911Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Lanspy.xaml.cs",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Lanspy.xaml.cs",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Lanspy.xaml.cs",
               "RelativeDocumentMoniker": "LANSPYproject\\Lanspy.xaml.cs",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Lanspy.xaml.cs",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Lanspy.xaml.cs",
               "RelativeToolTip": "LANSPYproject\\Lanspy.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -109,36 +141,35 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Logs.xaml.cs",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Logs.xaml.cs",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Logs.xaml.cs",
               "RelativeDocumentMoniker": "LANSPYproject\\Logs.xaml.cs",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Logs.xaml.cs",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Logs.xaml.cs",
               "RelativeToolTip": "LANSPYproject\\Logs.xaml.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAewBgAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAUwHsAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-17T12:22:53.029Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Logs.xaml",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Logs.xaml",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Logs.xaml",
               "RelativeDocumentMoniker": "LANSPYproject\\Logs.xaml",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Logs.xaml",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Logs.xaml",
               "RelativeToolTip": "LANSPYproject\\Logs.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-04-12T06:20:57.448Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-12T06:20:57.448Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Dashboard.xaml.cs",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Dashboard.xaml.cs",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Dashboard.xaml.cs",
               "RelativeDocumentMoniker": "LANSPYproject\\Dashboard.xaml.cs",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Dashboard.xaml.cs",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Dashboard.xaml.cs",
               "RelativeToolTip": "LANSPYproject\\Dashboard.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -146,22 +177,22 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Dashboard.xaml",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Dashboard.xaml",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Dashboard.xaml",
               "RelativeDocumentMoniker": "LANSPYproject\\Dashboard.xaml",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Dashboard.xaml",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Dashboard.xaml",
               "RelativeToolTip": "LANSPYproject\\Dashboard.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-05-16T01:36:10.669Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "NetworkConnectionDevice.cs",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\NetworkConnectionDevice.cs",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\NetworkConnectionDevice.cs",
               "RelativeDocumentMoniker": "LANSPYproject\\NetworkConnectionDevice.cs",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\NetworkConnectionDevice.cs",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\NetworkConnectionDevice.cs",
               "RelativeToolTip": "LANSPYproject\\NetworkConnectionDevice.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -169,11 +200,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "Setting.xaml.cs",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Setting.xaml.cs",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Setting.xaml.cs",
               "RelativeDocumentMoniker": "LANSPYproject\\Setting.xaml.cs",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Setting.xaml.cs",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Setting.xaml.cs",
               "RelativeToolTip": "LANSPYproject\\Setting.xaml.cs",
               "ViewState": "AgIAACEAAAAAAAAAAAAYwB0AAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -181,22 +212,22 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "Setting.xaml",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Setting.xaml",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Setting.xaml",
               "RelativeDocumentMoniker": "LANSPYproject\\Setting.xaml",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Setting.xaml",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Setting.xaml",
               "RelativeToolTip": "LANSPYproject\\Setting.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-04-12T07:05:49.86Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "LANSPYproject.csproj",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
               "RelativeDocumentMoniker": "LANSPYproject\\LANSPYproject.csproj",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
               "RelativeToolTip": "LANSPYproject\\LANSPYproject.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
@@ -204,11 +235,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "SettingsData.cs",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\SettingsData.cs",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\SettingsData.cs",
               "RelativeDocumentMoniker": "LANSPYproject\\SettingsData.cs",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\SettingsData.cs",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\SettingsData.cs",
               "RelativeToolTip": "LANSPYproject\\SettingsData.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -216,18 +247,18 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "Scanner.xaml",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Scanner.xaml",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Scanner.xaml",
               "RelativeDocumentMoniker": "LANSPYproject\\Scanner.xaml",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\Scanner.xaml",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\Scanner.xaml",
               "RelativeToolTip": "LANSPYproject\\Scanner.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-04-12T05:33:20.943Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "Chart.cs",
               "DocumentMoniker": "C:\\Users\\Duc Thinh\\AppData\\Local\\Temp\\.vsdbgsrc\\516d317e9ae9f2429b1d02c152e8e0a653a67aff985d1b790249410a3af4dc9f\\Chart.cs",
               "ToolTip": "C:\\Users\\Duc Thinh\\AppData\\Local\\Temp\\.vsdbgsrc\\516d317e9ae9f2429b1d02c152e8e0a653a67aff985d1b790249410a3af4dc9f\\Chart.cs [Read Only]",
@@ -237,11 +268,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "App.xaml",
-              "DocumentMoniker": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\App.xaml",
+              "DocumentMoniker": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\App.xaml",
               "RelativeDocumentMoniker": "LANSPYproject\\App.xaml",
-              "ToolTip": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\App.xaml",
+              "ToolTip": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\App.xaml",
               "RelativeToolTip": "LANSPYproject\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-05-16T14:30:56.963Z",

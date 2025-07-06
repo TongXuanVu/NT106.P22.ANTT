@@ -101,34 +101,39 @@ namespace LANSPYproject
         // Xử lý sự kiện khi nhấn nút Tìm kiếm
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            // Lấy giá trị nhập từ các textbox và datepicker
+            LoadDevicesFromDatabase(); // Load lại để đảm bảo lọc toàn bộ
+
             string ip = IPTextBox.Text.Trim();
             string mac = MACTexBox.Text.Trim();
             string deviceName = DeviceTextBox.Text.Trim();
             DateTime? from = FromDatePicker.SelectedDate;
             DateTime? to = ToDatePicker.SelectedDate;
 
-            // Lọc danh sách allDevices theo các điều kiện nhập
+            // Cộng thêm 1 ngày để bao phủ toàn bộ ngày to.Value
+            DateTime? adjustedTo = to?.AddDays(1);
+
             var filtered = allDevices.Where(d =>
-                (string.IsNullOrWhiteSpace(ip) || d.IP.Contains(ip)) &&
-                (string.IsNullOrWhiteSpace(mac) || d.MAC.Contains(mac)) &&
-                (string.IsNullOrWhiteSpace(deviceName) || (d.Name != null && d.Name.Contains(deviceName))) &&
-                (!from.HasValue || DateTime.TryParse(d.ScanDate, out var scanDate) && scanDate >= from.Value) &&
-                (!to.HasValue || DateTime.TryParse(d.ScanDate, out scanDate) && scanDate <= to.Value)
-            );
-
-            // Xóa danh sách hiển thị cũ
-            displayedDevices.Clear();
-
-            // Thêm các thiết bị thỏa mãn điều kiện vào danh sách hiển thị
-            foreach (var device in filtered)
             {
-                displayedDevices.Add(device);
-            }
+                if (!string.IsNullOrWhiteSpace(ip) && !d.IP.Contains(ip)) return false;
+                if (!string.IsNullOrWhiteSpace(mac) && !d.MAC.Contains(mac)) return false;
+                if (!string.IsNullOrWhiteSpace(deviceName) && (d.Name == null || !d.Name.Contains(deviceName))) return false;
 
-            // Cập nhật lại thông tin thống kê (tổng số log, thiết bị lạ)
+                if (!TryParseDate(d.ScanDate, out var scanDate))
+                    return false;
+
+                if (from.HasValue && scanDate < from.Value) return false;
+                if (adjustedTo.HasValue && scanDate >= adjustedTo.Value) return false;
+
+                return true;
+            });
+
+            displayedDevices.Clear();
+            foreach (var device in filtered)
+                displayedDevices.Add(device);
+
             UpdateStats();
         }
+
 
         // Xử lý sự kiện khi nhấn nút Làm mới (Clear)
         private void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -139,7 +144,8 @@ namespace LANSPYproject
             FromDatePicker.SelectedDate = null;
             ToDatePicker.SelectedDate = null;
 
-            RefreshDisplayDevices();
+            //RefreshDisplayDevices();
+            LoadDevicesFromDatabase();
         }
 
         // Xử lý sự kiện khi nhấn nút Xuất báo cáo (xuất file CSV)

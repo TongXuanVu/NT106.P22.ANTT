@@ -2132,11 +2132,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
+      "projectUniqueName": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
       "projectName": "LANSPYproject",
-      "projectPath": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
+      "projectPath": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
       "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-      "outputPath": "F:\\NT106-LTM\\NT106.P22.ANTT\\LANSPYproject\\obj\\",
+      "outputPath": "D:\\LTM-sapdead\\NT106.P22.ANTT\\LANSPYproject\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
