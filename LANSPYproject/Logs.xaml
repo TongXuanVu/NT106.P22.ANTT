@@ -136,7 +136,14 @@
                         </StackPanel>
 
                         <!-- DataGrid thay cho các dòng Grid -->
-                        <DataGrid x:Name="LogsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Margin="0,10,0,0">
+                        <DataGrid x:Name="LogsDataGrid"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  IsReadOnly="True"
+                                  Margin="0,10,0,0"
+                                  Height="400"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="SL No" Width="50" Binding="{Binding ID}"/>
                                 <DataGridTextColumn Header="MAC Address" Width="200" Binding="{Binding MAC}"/>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ClosedXML.Excel;
+using MySql.Data.MySqlClient;
 namespace LANSPYproject
 {
     public partial class Logs : UserControl
@@ -20,17 +21,28 @@ namespace LANSPYproject
             InitializeComponent();
             // Gán DataGrid với bộ dữ liệu hiển thị
             LogsDataGrid.ItemsSource = displayedDevices;
+            LoadDevicesFromDatabase();
         }
 
         // Phương thức để Scanner gọi cập nhật dữ liệu mới sang Logs
         public void UpdateDevices(ObservableCollection<NetworkDevice> devices)
         {
-            allDevices.Clear();
+            // Tải lại từ DB để giữ toàn bộ lịch sử
+            LoadDevicesFromDatabase();
+
+            // Thêm thiết bị mới vào nếu chưa có trong danh sách
             foreach (var device in devices)
-                allDevices.Add(device);
+            {
+                bool exists = allDevices.Any(d => d.IP == device.IP && d.ScanDate == device.ScanDate);
+                if (!exists)
+                {
+                    allDevices.Add(device);
+                }
+            }
 
             RefreshDisplayDevices();
         }
+
 
         // Hiển thị tất cả thiết bị hiện có (hoặc sau khi làm mới)
         private void RefreshDisplayDevices()
@@ -195,6 +207,58 @@ namespace LANSPYproject
                 DateTime.TryParse(d.ScanDate, out var scanDate) && scanDate >= cutoffDate);
 
             allDevices = new ObservableCollection<NetworkDevice>(filtered);
+
+            RefreshDisplayDevices();
+        }
+
+        private void LoadDevicesFromDatabase()
+        {
+            string connectionString = "server=localhost;user=root;password=260805;database=lan_spy_db;";
+            string query = "SELECT ip, mac, name, scan_time, status FROM scanner_devices ORDER BY scan_time DESC";
+
+            allDevices.Clear();
+
+            using (var conn = new MySqlConnection(connectionString))
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                conn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    int id = 0;
+                    while (reader.Read())
+                    {
+                        string ip = reader["ip"]?.ToString() ?? "Unknown";
+                        string mac = reader["mac"]?.ToString() ?? "Unknown";
+                        string nameField = reader["name"]?.ToString() ?? "Unknown";
+                        DateTime scanTime = Convert.ToDateTime(reader["scan_time"]);
+                        bool isOnline = (reader["status"]?.ToString() ?? "").Equals("Online", StringComparison.OrdinalIgnoreCase);
+
+                        var device = new NetworkDevice
+                        {
+                            ID = id++,
+                            IP = ip,
+                            MAC = mac,
+                            ScanDate = scanTime.ToString("dd/MM/yyyy HH:mm"),
+                            IsOn = isOnline
+                        };
+
+                        if (nameField.Contains("(") && nameField.Contains(")"))
+                        {
+                            var openIdx = nameField.IndexOf('(');
+                            var closeIdx = nameField.IndexOf(')');
+                            device.HostName = nameField.Substring(0, openIdx).Trim();
+                            device.Manufacturer = nameField.Substring(openIdx + 1, closeIdx - openIdx - 1).Trim();
+                        }
+                        else
+                        {
+                            device.HostName = nameField;
+                            device.Manufacturer = "Unknown";
+                        }
+
+                        allDevices.Add(device);
+                    }
+                }
+            }
 
             RefreshDisplayDevices();
         }
