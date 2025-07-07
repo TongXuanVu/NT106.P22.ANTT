@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,6 @@ namespace LANSPYproject
     /// Interaction logic for Alerts.xaml
     /// </summary>
     public partial class Alerts : UserControl
-
     {
         public class AlertItem
         {
@@ -26,23 +26,25 @@ namespace LANSPYproject
             public string Loai { get; set; }
             public string NoiDung { get; set; }
         }
+
+        public ObservableCollection<AlertItem> AlertItems { get; set; } = new ObservableCollection<AlertItem>();
+
         public Alerts()
         {
             InitializeComponent();
-            AlertDataGrid.ItemsSource = new List<AlertItem>
-        {
-            new AlertItem { ThoiGian = "11:22:10 10/04/2025", Loai = "Thông thường", NoiDung = "Thiết bị mới: 192.168.1.105" },
-            new AlertItem { ThoiGian = "11:24:03 10/04/2025", Loai = "Lỗi nghiêm trọng", NoiDung = "Mất kết nối: 192.168.1.107" },
-            new AlertItem { ThoiGian = "11:25:30 10/04/2025", Loai = "Thông thường", NoiDung = "Thiết bị lạ: MAC AA-BB-CC-DD-EE-FF" },
-            new AlertItem { ThoiGian = "11:26:45 10/04/2025", Loai = "Lỗi nghiêm trọng", NoiDung = "Không ping được: 192.168.1.110" },
-            new AlertItem { ThoiGian = "11:28:12 10/04/2025", Loai = "Thông thường", NoiDung = "Quá tải: 52 thiết bị hoạt động" },
-        };
+            AlertDataGrid.ItemsSource = AlertItems;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void AddAlert(string loai, string noiDung)
         {
-
+            AlertItems.Insert(0, new AlertItem
+            {
+                ThoiGian = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
+                Loai = loai,
+                NoiDung = noiDung
+            });
         }
     }
+
 
 }

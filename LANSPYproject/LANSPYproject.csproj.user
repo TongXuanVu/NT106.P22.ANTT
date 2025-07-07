@@ -8,6 +8,9 @@
     <Compile Update="Logs.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="NotificationPopup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Scanner.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

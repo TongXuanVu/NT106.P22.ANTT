@@ -28,6 +28,8 @@ namespace LANSPYproject
 
             // Gán tham chiếu LogsControl trong Scanner
             scannerPage.LogsControl = logsPage;
+            
+            scannerPage.AlertsControl = alertsPage;
 
             // Cập nhật tên Wifi mỗi 10 giây
             wifiTimer = new DispatcherTimer();

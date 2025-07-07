@@ -60,6 +60,7 @@ namespace LANSPYproject
     public partial class Scanner : UserControl, INotifyPropertyChanged
     {
         public Logs? LogsControl { get; set; }
+        public Alerts? AlertsControl { get; set; } //7/7
 
         private static readonly Dictionary<string, string> OUIManufacturers = new Dictionary<string, string>
         {
@@ -297,6 +298,8 @@ namespace LANSPYproject
             }
         }
 
+        // Trong method ScanNetworkAsync, thay thế phần xử lý thiết bị mới và offline:
+
         private async Task ScanNetworkAsync(CancellationToken token)
         {
             var ipSubnet = GetWiFiIPAndSubnetMask() ?? GetEthernetIPAndSubnetMask();
@@ -328,11 +331,14 @@ namespace LANSPYproject
                             if (reply.Status == IPStatus.Success)
                             {
                                 NetworkDevice? device = null;
+                                bool isNewDevice = false;
+
                                 App.Current.Dispatcher.Invoke(() =>
                                 {
                                     device = Devices.FirstOrDefault(d => d.IP == ip);
                                     if (device == null)
                                     {
+                                        isNewDevice = true;
                                         device = new NetworkDevice
                                         {
                                             ID = Devices.Count + 1,
@@ -344,8 +350,7 @@ namespace LANSPYproject
                                             IsOn = true
                                         };
                                         Devices.Add(device);
-                                        //SaveDeviceToDatabase(device);
-
+                                        AlertsControl?.AddAlert("Thông thường", $"Thiết bị mới: {ip}");
                                         ReassignIDs();
                                     }
                                     else
@@ -359,6 +364,20 @@ namespace LANSPYproject
                                     await UpdateMacForDevice(ip, device);
                                     await UpdateNameForDevice(ip, device);
                                     SaveDeviceToDatabase(device);
+
+                                    // Hiển thị popup cho thiết bị mới
+                                    if (isNewDevice)
+                                    {
+                                        App.Current.Dispatcher.Invoke(() =>
+                                        {
+                                            var mainWindow = Application.Current.MainWindow;
+                                            NotificationPopup.ShowNewDeviceNotification(
+                                                device.IP,
+                                                device.Name,
+                                                device.MAC,
+                                                mainWindow);
+                                        });
+                                    }
                                 }
                             }
                             else
@@ -366,9 +385,18 @@ namespace LANSPYproject
                                 App.Current.Dispatcher.Invoke(() =>
                                 {
                                     var device = Devices.FirstOrDefault(d => d.IP == ip);
-                                    if (device != null)
+                                    if (device != null && device.IsOn) // Chỉ hiển thị nếu thiết bị đang online
                                     {
                                         device.IsOn = false;
+                                        AlertsControl?.AddAlert("Thông báo", $"Mất kết nối: {device.IP}");
+
+                                        // Hiển thị popup cho thiết bị offline
+                                        var mainWindow = Application.Current.MainWindow;
+                                        NotificationPopup.ShowDeviceOfflineNotification(
+                                            device.IP,
+                                            device.Name,
+                                            device.MAC,
+                                            mainWindow);
                                     }
                                 });
                             }
@@ -379,9 +407,17 @@ namespace LANSPYproject
                         App.Current.Dispatcher.Invoke(() =>
                         {
                             var device = Devices.FirstOrDefault(d => d.IP == ip);
-                            if (device != null)
+                            if (device != null && device.IsOn) // Chỉ hiển thị nếu thiết bị đang online
                             {
                                 device.IsOn = false;
+
+                                // Hiển thị popup cho thiết bị offline
+                                var mainWindow = Application.Current.MainWindow;
+                                NotificationPopup.ShowDeviceOfflineNotification(
+                                    device.IP,
+                                    device.Name,
+                                    device.MAC,
+                                    mainWindow);
                             }
                         });
                     }
