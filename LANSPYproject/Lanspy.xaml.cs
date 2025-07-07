@@ -7,7 +7,6 @@ using System.Windows.Threading;
 
 namespace LANSPYproject
 {
-
     public partial class Lanspy : Window
     {
         private DispatcherTimer wifiTimer;
@@ -18,6 +17,7 @@ namespace LANSPYproject
         private Logs logsPage = new Logs();
         private Alerts alertsPage = new Alerts();
         private Setting settingPage = new Setting();
+
         public Lanspy()
         {
             InitializeComponent();
@@ -28,8 +28,14 @@ namespace LANSPYproject
 
             // Gán tham chiếu LogsControl trong Scanner
             scannerPage.LogsControl = logsPage;
-            
             scannerPage.AlertsControl = alertsPage;
+
+            // --- TÍCH HỢP SETTING <=> SCANNER ---
+            // 1. Kết nối sự kiện OnSettingsChanged của Setting để cập nhật Scanner mỗi khi đổi Setting
+            settingPage.OnSettingsChanged += scannerPage.UpdateSettings;
+
+            // 2. Khi khởi động app, truyền luôn settings hiện tại vào Scanner (giúp auto-scan đúng chu kỳ ngay từ đầu)
+            scannerPage.UpdateSettings(settingPage.CurrentSettings);
 
             // Cập nhật tên Wifi mỗi 10 giây
             wifiTimer = new DispatcherTimer();

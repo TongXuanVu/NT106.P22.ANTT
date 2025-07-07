@@ -116,7 +116,7 @@ namespace LANSPYproject {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/LANSPYproject;component/notificationpopup.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/LANSPYproject;V1.0.0.0;component/notificationpopup.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\NotificationPopup.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

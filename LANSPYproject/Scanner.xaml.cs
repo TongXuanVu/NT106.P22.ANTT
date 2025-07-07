@@ -15,13 +15,11 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Media;
-//using System.Data.SqlClient;
+using System.Windows.Threading;
 using MySql.Data.MySqlClient;
 
 namespace LANSPYproject
 {
-
-
     public class BoolToOnlineOfflineConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -60,7 +58,7 @@ namespace LANSPYproject
     public partial class Scanner : UserControl, INotifyPropertyChanged
     {
         public Logs? LogsControl { get; set; }
-        public Alerts? AlertsControl { get; set; } //7/7
+        public Alerts? AlertsControl { get; set; }
 
         private static readonly Dictionary<string, string> OUIManufacturers = new Dictionary<string, string>
         {
@@ -91,19 +89,52 @@ namespace LANSPYproject
 
         private bool hasScannedOnce = false;
 
+        // === Auto Scan Interval ===
+        private DispatcherTimer? autoScanTimer;
+        private SettingsData currentSettings = new SettingsData();
+
         public Scanner()
         {
             InitializeComponent();
             deviceDataGrid.ItemsSource = Devices;
-
             UpdateCurrentNetworkRange();
-
             NetworkChange.NetworkAddressChanged += (s, e) =>
             {
                 Dispatcher.Invoke(() => UpdateCurrentNetworkRange());
             };
-
             this.DataContext = this;
+
+            SetupAutoScanTimer(); // tự động quét theo interval khi mở
+        }
+
+        // Nhận settings từ Setting control
+        public void UpdateSettings(SettingsData newSettings)
+        {
+            if (newSettings != null && newSettings.IsValid())
+            {
+                currentSettings = newSettings.Clone();
+                SetupAutoScanTimer();
+            }
+        }
+
+        private void SetupAutoScanTimer()
+        {
+            if (autoScanTimer == null)
+            {
+                autoScanTimer = new DispatcherTimer();
+                autoScanTimer.Tick += (s, e) =>
+                {
+                    // Không cho chạy đồng thời nhiều lần!
+                    if (cts == null)
+                        StartScanning();
+                };
+            }
+
+            autoScanTimer.Stop();
+            autoScanTimer.Interval = TimeSpan.FromSeconds(currentSettings.ScanInterval);
+
+            // Nếu muốn tắt auto scan, chỉ cần comment dòng sau
+            autoScanTimer.Start();
         }
 
         private void ScanButton_Click(object sender, RoutedEventArgs e)
@@ -235,8 +266,6 @@ namespace LANSPYproject
             return null;
         }
 
-
-
         private async void StartScanning()
         {
             if (cts != null)
@@ -298,8 +327,7 @@ namespace LANSPYproject
             }
         }
 
-        // Trong method ScanNetworkAsync, thay thế phần xử lý thiết bị mới và offline:
-
+        // Method ScanNetworkAsync đã điều chỉnh lấy thông số từ currentSettings
         private async Task ScanNetworkAsync(CancellationToken token)
         {
             var ipSubnet = GetWiFiIPAndSubnetMask() ?? GetEthernetIPAndSubnetMask();
@@ -312,7 +340,7 @@ namespace LANSPYproject
             var (ipAddress, subnetMask) = ipSubnet.Value;
             var ipList = GetLimitedHosts(ipAddress);
 
-            var semaphore = new SemaphoreSlim(50);
+            var semaphore = new SemaphoreSlim(currentSettings.DeviceThreshold > 0 ? currentSettings.DeviceThreshold : 50); // lấy DeviceThreshold làm max thread
             int scannedCount = 0;
 
             foreach (var ip in ipList)
@@ -327,7 +355,7 @@ namespace LANSPYproject
                         token.ThrowIfCancellationRequested();
                         using (var ping = new Ping())
                         {
-                            var reply = await ping.SendPingAsync(ip, 500);
+                            var reply = await ping.SendPingAsync(ip, 500); // (có thể bổ sung thời gian timeout từ settings)
                             if (reply.Status == IPStatus.Success)
                             {
                                 NetworkDevice? device = null;
@@ -365,8 +393,8 @@ namespace LANSPYproject
                                     await UpdateNameForDevice(ip, device);
                                     SaveDeviceToDatabase(device);
 
-                                    // Hiển thị popup cho thiết bị mới
-                                    if (isNewDevice)
+                                    // Popup cảnh báo thiết bị mới nếu bật trong settings
+                                    if (isNewDevice && currentSettings.NotifyNewDevice)
                                     {
                                         App.Current.Dispatcher.Invoke(() =>
                                         {
@@ -378,6 +406,14 @@ namespace LANSPYproject
                                                 mainWindow);
                                         });
                                     }
+                                    // Popup thiết bị lạ (MAC unknown) nếu bật trong settings
+                                    if (currentSettings.NotifyUnknownMAC && device.MAC == "Unknown")
+                                    {
+                                        App.Current.Dispatcher.Invoke(() =>
+                                        {
+                                            AlertsControl?.AddAlert("Thiết bị lạ", $"Thiết bị MAC chưa xác định: {device.IP}");
+                                        });
+                                    }
                                 }
                             }
                             else
@@ -385,18 +421,19 @@ namespace LANSPYproject
                                 App.Current.Dispatcher.Invoke(() =>
                                 {
                                     var device = Devices.FirstOrDefault(d => d.IP == ip);
-                                    if (device != null && device.IsOn) // Chỉ hiển thị nếu thiết bị đang online
+                                    if (device != null && device.IsOn)
                                     {
                                         device.IsOn = false;
-                                        AlertsControl?.AddAlert("Thông báo", $"Mất kết nối: {device.IP}");
-
-                                        // Hiển thị popup cho thiết bị offline
-                                        var mainWindow = Application.Current.MainWindow;
-                                        NotificationPopup.ShowDeviceOfflineNotification(
-                                            device.IP,
-                                            device.Name,
-                                            device.MAC,
-                                            mainWindow);
+                                        if (currentSettings.NotifyDisconnect)
+                                        {
+                                            AlertsControl?.AddAlert("Thông báo", $"Mất kết nối: {device.IP}");
+                                            var mainWindow = Application.Current.MainWindow;
+                                            NotificationPopup.ShowDeviceOfflineNotification(
+                                                device.IP,
+                                                device.Name,
+                                                device.MAC,
+                                                mainWindow);
+                                        }
                                     }
                                 });
                             }
@@ -407,17 +444,18 @@ namespace LANSPYproject
                         App.Current.Dispatcher.Invoke(() =>
                         {
                             var device = Devices.FirstOrDefault(d => d.IP == ip);
-                            if (device != null && device.IsOn) // Chỉ hiển thị nếu thiết bị đang online
+                            if (device != null && device.IsOn)
                             {
                                 device.IsOn = false;
-
-                                // Hiển thị popup cho thiết bị offline
-                                var mainWindow = Application.Current.MainWindow;
-                                NotificationPopup.ShowDeviceOfflineNotification(
-                                    device.IP,
-                                    device.Name,
-                                    device.MAC,
-                                    mainWindow);
+                                if (currentSettings.NotifyDisconnect)
+                                {
+                                    var mainWindow = Application.Current.MainWindow;
+                                    NotificationPopup.ShowDeviceOfflineNotification(
+                                        device.IP,
+                                        device.Name,
+                                        device.MAC,
+                                        mainWindow);
+                                }
                             }
                         });
                     }
@@ -438,7 +476,7 @@ namespace LANSPYproject
                 await Task.Delay(30, token);
             }
 
-            while (semaphore.CurrentCount < 50)
+            while (semaphore.CurrentCount < (currentSettings.DeviceThreshold > 0 ? currentSettings.DeviceThreshold : 50))
             {
                 await Task.Delay(100, token);
             }
@@ -583,28 +621,28 @@ namespace LANSPYproject
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
         private void SaveDeviceToDatabase(NetworkDevice device)
-            {
-                string connectionString = "server=localhost;user=root;password=260805;database=lan_spy_db;";
+        {
+            string connectionString = "server=localhost;user=root;password=260805;database=lan_spy_db;";
 
-                using (var conn = new MySqlConnection(connectionString))
-                {
-                    string query = @"INSERT INTO scanner_devices (ip, mac, name, scan_time, status)
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                string query = @"INSERT INTO scanner_devices (ip, mac, name, scan_time, status)
                              VALUES (@ip, @mac, @name, @scan_time, @status)";
 
-                    using (var cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@ip", device.IP ?? "Unknown");
-                        cmd.Parameters.AddWithValue("@mac", device.MAC ?? "Unknown");
-                        cmd.Parameters.AddWithValue("@name", device.Name ?? "Unknown");
-                        cmd.Parameters.AddWithValue("@scan_time", DateTime.Now);
-                        cmd.Parameters.AddWithValue("@status", device.IsOn ? "Online" : "Offline");
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@ip", device.IP ?? "Unknown");
+                    cmd.Parameters.AddWithValue("@mac", device.MAC ?? "Unknown");
+                    cmd.Parameters.AddWithValue("@name", device.Name ?? "Unknown");
+                    cmd.Parameters.AddWithValue("@scan_time", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@status", device.IsOn ? "Online" : "Offline");
 
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                    }
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
                 }
             }
-        
+        }
+
     }
 
     public class NetworkDevice : INotifyPropertyChanged
@@ -691,7 +729,5 @@ namespace LANSPYproject
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
-
     }
-
 }

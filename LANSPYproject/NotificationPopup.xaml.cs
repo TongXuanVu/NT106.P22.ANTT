@@ -42,8 +42,8 @@ namespace LANSPYproject
             popup.TitleText.Text = "Thiết bị mới được phát hiện";
 
             // Thiết lập nội dung
-            popup.DeviceInfoText.Text = $"Tên: {deviceName}";
-            popup.IPAddressText.Text = $"IP: {deviceIP} | MAC: {deviceMAC}";
+            popup.DeviceInfoText.Text = $"Tên: {(string.IsNullOrEmpty(deviceName) ? "Không rõ" : deviceName)}";
+            popup.IPAddressText.Text = $"IP: {(string.IsNullOrEmpty(deviceIP) ? "Unknown" : deviceIP)} | MAC: {(string.IsNullOrEmpty(deviceMAC) ? "Không rõ" : deviceMAC)}";
             popup.TimestampText.Text = $"Thời gian: {DateTime.Now:HH:mm:ss dd/MM/yyyy}";
 
             // Thiết lập vị trí hiển thị
@@ -69,14 +69,15 @@ namespace LANSPYproject
             popup.TitleText.Text = "Thiết bị mất kết nối";
 
             // Thiết lập nội dung
-            popup.DeviceInfoText.Text = $"Tên: {deviceName}";
-            popup.IPAddressText.Text = $"IP: {deviceIP} | MAC: {deviceMAC}";
+            popup.DeviceInfoText.Text = $"Tên: {(string.IsNullOrEmpty(deviceName) ? "Không rõ" : deviceName)}";
+            popup.IPAddressText.Text = $"IP: {(string.IsNullOrEmpty(deviceIP) ? "Unknown" : deviceIP)} | MAC: {(string.IsNullOrEmpty(deviceMAC) ? "Không rõ" : deviceMAC)}";
             popup.TimestampText.Text = $"Thời gian: {DateTime.Now:HH:mm:ss dd/MM/yyyy}";
 
             // Thiết lập vị trí hiển thị
             popup.SetWindowPosition(owner);
             popup.Show();
         }
+
 
         /// <summary>
         /// Thiết lập vị trí hiển thị popup
