@@ -150,7 +150,7 @@
                                 <DataGridTextColumn Header="IP Address" Width="150" Binding="{Binding IP}"/>
                                 <DataGridTextColumn Header="Tên thiết bị" Width="200" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="Thời gian" Width="150" Binding="{Binding ScanDate}"/>
-                                <DataGridTextColumn Header="Ghi chú" Width="100" Binding="{Binding Manufacturer}"/>
+                                <DataGridTextColumn Header="Ghi chú" Width="100" Binding="{Binding WifiName}"/>
                             </DataGrid.Columns>
                         </DataGrid>
 

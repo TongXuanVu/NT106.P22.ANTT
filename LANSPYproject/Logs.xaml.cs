@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Vml;
 using MySql.Data.MySqlClient;
 namespace LANSPYproject
 {
@@ -33,39 +32,6 @@ namespace LANSPYproject
             LoadDevicesFromDatabase();
         }
 
-        private string GetWifiName()
-        {
-            try
-            {
-                ProcessStartInfo psi = new ProcessStartInfo("netsh", "wlan show interfaces")
-                {
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
-
-                using (Process process = Process.Start(psi))
-                {
-                    string output = process.StandardOutput.ReadToEnd();
-                    process.WaitForExit();
-
-                    Regex regex = new Regex(@"^\s*SSID\s*:\s*(.+)$", RegexOptions.Multiline);
-                    Match match = regex.Match(output);
-                    if (match.Success)
-                    {
-                        string ssid = match.Groups[1].Value.Trim();
-                        if (ssid.Equals("BSSID", StringComparison.OrdinalIgnoreCase))
-                            return "Unknown";
-                        return ssid;
-                    }
-                }
-            }
-            catch
-            {
-                // Lỗi thì trả về Unknown
-            }
-            return "Unknown";
-        }
 
 
         // Hiển thị tất cả thiết bị hiện có (hoặc sau khi làm mới)
@@ -203,7 +169,7 @@ namespace LANSPYproject
                     worksheet.Cell(row, 3).Value = device.IP;
                     worksheet.Cell(row, 4).Value = device.Name;
                     worksheet.Cell(row, 5).Value = device.ScanDate;
-                    worksheet.Cell(row, 6).Value = GetWifiName(); // Ghi chú là tên wifi
+                    worksheet.Cell(row, 6).Value = device.WifiName; // Ghi chú là tên wifi từ database
                     row++;
                 }
 
@@ -271,7 +237,7 @@ namespace LANSPYproject
                             MAC = mac,
                             ScanDate = scanTime.ToString("dd/MM/yyyy HH:mm"),
                             IsOn = isOnline,
-                            WifiName = wifiName
+                            WifiName = wifiName // Lấy đúng trường wifi_name từ database
                         };
 
                         if (nameField.Contains("(") && nameField.Contains(")"))
