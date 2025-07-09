@@ -165,7 +165,7 @@ namespace LANSPYproject
             OnlineDevicesCount = Devices.Count(d => d.IsOnline);
             TotalDevicesCount = Devices.Count;
             StrangeDeviceAlerts = Devices.Count(d => d.IsStrangeDevice);
-            LastScanTime = "10 phút trước";
+
         }
 
         private async Task<string> GetCurrentWifiSSIDAsync()

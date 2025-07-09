@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LANSPYproject")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+302c912f09fa0d02ecb8a221cb51983fa15142c5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe92703547867616aad492d929e8f61f194fc375")]
 [assembly: System.Reflection.AssemblyProductAttribute("LANSPYproject")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LANSPYproject")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

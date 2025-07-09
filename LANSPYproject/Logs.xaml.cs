@@ -29,18 +29,6 @@ namespace LANSPYproject
         {
             // Tải lại từ DB để giữ toàn bộ lịch sử
             LoadDevicesFromDatabase();
-
-            // Thêm thiết bị mới vào nếu chưa có trong danh sách
-            foreach (var device in devices)
-            {
-                bool exists = allDevices.Any(d => d.IP == device.IP && d.ScanDate == device.ScanDate);
-                if (!exists)
-                {
-                    allDevices.Add(device);
-                }
-            }
-
-            RefreshDisplayDevices();
         }
 
 
@@ -174,12 +162,12 @@ namespace LANSPYproject
                 int row = 2;
                 foreach (var device in displayedDevices)
                 {
-                    worksheet.Cell(row, 1).Value = device.ID;
+                    worksheet.Cell(row, 1).Value = device.ID + 1;
                     worksheet.Cell(row, 2).Value = device.MAC;
                     worksheet.Cell(row, 3).Value = device.IP;
                     worksheet.Cell(row, 4).Value = device.Name;
                     worksheet.Cell(row, 5).Value = device.ScanDate;
-                    worksheet.Cell(row, 6).Value = device.Manufacturer; // hoặc trường nào bạn muốn
+                    worksheet.Cell(row, 6).Value = device.WifiName; // Ghi chú là tên wifi
                     row++;
                 }
 
@@ -219,8 +207,8 @@ namespace LANSPYproject
 
         private void LoadDevicesFromDatabase()
         {
-            string connectionString = "server=localhost;user=root;password=1234;database=lan_spy_db;";
-            string query = "SELECT ip, mac, name, scan_time, status FROM scanner_devices ORDER BY scan_time DESC";
+            string connectionString = "server=localhost;user=root;password=2104230122;database=lan_spy_db;";
+            string query = "SELECT ip, mac, name, scan_time, status, wifi_name FROM scanner_devices ORDER BY scan_time DESC";
 
             allDevices.Clear();
 
@@ -238,6 +226,7 @@ namespace LANSPYproject
                         string nameField = reader["name"]?.ToString() ?? "Unknown";
                         DateTime scanTime = Convert.ToDateTime(reader["scan_time"]);
                         bool isOnline = (reader["status"]?.ToString() ?? "").Equals("Online", StringComparison.OrdinalIgnoreCase);
+                        string wifiName = reader["wifi_name"]?.ToString() ?? "Unknown";
 
                         var device = new NetworkDevice
                         {
@@ -245,7 +234,8 @@ namespace LANSPYproject
                             IP = ip,
                             MAC = mac,
                             ScanDate = scanTime.ToString("dd/MM/yyyy HH:mm"),
-                            IsOn = isOnline
+                            IsOn = isOnline,
+                            WifiName = wifiName
                         };
 
                         if (nameField.Contains("(") && nameField.Contains(")"))

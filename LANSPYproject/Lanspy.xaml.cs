@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Linq;
 
 namespace LANSPYproject
 {
@@ -42,6 +43,21 @@ namespace LANSPYproject
             wifiTimer.Interval = TimeSpan.FromSeconds(10);
             wifiTimer.Tick += (s, e) => UpdateWifiDisplay();
             wifiTimer.Start();
+
+            // --- TRUYỀN DANH SÁCH THIẾT BỊ SANG DASHBOARD ---
+            scannerPage.ScanCompleted += (dt) =>
+            {
+                dashboardPage.Devices = scannerPage.Devices.Select(d => new NetworkConnectionDevice
+                {
+                    IP = d.IP,
+                    MAC = d.MAC,
+                    HostName = d.HostName,
+                    IsOnline = d.IsOn,
+                    IsStrangeDevice = string.IsNullOrEmpty(d.Manufacturer) || d.Manufacturer == "Unknown"
+                }).ToList();
+                dashboardPage.GetType().GetMethod("LoadScannerData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.Invoke(dashboardPage, null);
+                dashboardPage.LastScanTime = dt.ToString("HH:mm:ss dd/MM/yyyy"); // Cập nhật thời gian quét gần nhất
+            };
         }
 
         private void UpdateWifiDisplay()

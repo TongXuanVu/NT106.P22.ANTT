@@ -63,7 +63,7 @@ namespace LANSPYproject
         public Alerts? AlertsControl { get; set; }
 
         private static Dictionary<string, string> OUIManufacturers = new();
-
+        public event Action<DateTime>? ScanCompleted;
         public ObservableCollection<NetworkDevice> Devices { get; set; } = new ObservableCollection<NetworkDevice>();
 
         private CancellationTokenSource? cts = null;
@@ -90,6 +90,7 @@ namespace LANSPYproject
 
         public Scanner()
         {
+            CreateDatabaseIfNotExists();
             InitializeComponent();
             deviceDataGrid.ItemsSource = Devices;
             UpdateCurrentNetworkRange();
@@ -106,6 +107,40 @@ namespace LANSPYproject
 
             SetupAutoScanTimer();
         }// tự động quét theo interval khi mở
+
+        private static void CreateDatabaseIfNotExists()
+        {
+            string connectionString = "server=localhost;user=root;password=2104230122;";
+            string dbName = "lan_spy_db";
+            using (var conn = new MySql.Data.MySqlClient.MySqlConnection(connectionString))
+            {
+                conn.Open();
+                // Tạo database nếu chưa có
+                using (var cmd = new MySql.Data.MySqlClient.MySqlCommand($"CREATE DATABASE IF NOT EXISTS {dbName} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;", conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            // Tạo bảng nếu chưa có
+            string tableConnStr = connectionString + $"database={dbName};";
+            using (var conn = new MySql.Data.MySqlClient.MySqlConnection(tableConnStr))
+            {
+                conn.Open();
+                string createTableSql = @"CREATE TABLE IF NOT EXISTS scanner_devices (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            ip VARCHAR(64),
+            mac VARCHAR(64),
+            name VARCHAR(255),
+            scan_time DATETIME,
+            status VARCHAR(32),
+            wifi_name VARCHAR(255)
+        );";
+                using (var cmd = new MySql.Data.MySqlClient.MySqlCommand(createTableSql, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
         private static Dictionary<string, string> LoadOUIFromCSV(string csvPath)
         {
             var ouiDict = new Dictionary<string, string>();
@@ -260,7 +295,7 @@ namespace LANSPYproject
 
             Devices.Insert(0, new NetworkDevice
             {
-                ID = 0,
+                ID = 1, // Bắt đầu từ 1
                 IP = localIP,
                 MAC = mac,
                 HostName = Dns.GetHostName(),
@@ -268,6 +303,40 @@ namespace LANSPYproject
                 ScanDate = DateTime.Now.ToString("dd/MM, hh:mm tt"),
                 IsOn = true
             });
+        }
+
+        private string GetWifiName()
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo("netsh", "wlan show interfaces")
+                {
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using (Process process = Process.Start(psi))
+                {
+                    string output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+
+                    Regex regex = new Regex(@"^\s*SSID\s*:\s*(.+)$", RegexOptions.Multiline);
+                    Match match = regex.Match(output);
+                    if (match.Success)
+                    {
+                        string ssid = match.Groups[1].Value.Trim();
+                        if (ssid.Equals("BSSID", StringComparison.OrdinalIgnoreCase))
+                            return "Unknown";
+                        return ssid;
+                    }
+                }
+            }
+            catch
+            {
+                // Lỗi thì trả về Unknown
+            }
+            return "Unknown";
         }
 
         private string? GetLocalMacAddress()
@@ -345,7 +414,7 @@ namespace LANSPYproject
         {
             for (int i = 0; i < Devices.Count; i++)
             {
-                Devices[i].ID = i;
+                Devices[i].ID = i + 1; // Bắt đầu từ 1
             }
         }
 
@@ -504,6 +573,7 @@ namespace LANSPYproject
             }
 
             token.ThrowIfCancellationRequested();
+            ScanCompleted?.Invoke(DateTime.Now);
         }
 
         private List<string> GetLimitedHosts(string ipAddress)
@@ -560,6 +630,7 @@ namespace LANSPYproject
             }
             catch { }
         }
+
         private async Task<string?> GetNetbiosName(string ip)
         {
             return await Task.Run(() =>
@@ -700,12 +771,41 @@ namespace LANSPYproject
         }
         private void SaveDeviceToDatabase(NetworkDevice device)
         {
-            string connectionString = "server=localhost;user=root;password=260805;database=lan_spy_db;";
-
+            string connectionString = "server=localhost;user=root;password=2104230122;database=lan_spy_db;";
             using (var conn = new MySqlConnection(connectionString))
             {
-                string query = @"INSERT INTO scanner_devices (ip, mac, name, scan_time, status)
-                             VALUES (@ip, @mac, @name, @scan_time, @status)";
+                // Kiểm tra trùng lặp theo IP và MAC
+                string checkQuery = @"SELECT COUNT(*) FROM scanner_devices WHERE ip = @ip AND mac = @mac";
+                using (var checkCmd = new MySqlCommand(checkQuery, conn))
+                {
+                    checkCmd.Parameters.AddWithValue("@ip", device.IP ?? "Unknown");
+                    checkCmd.Parameters.AddWithValue("@mac", device.MAC ?? "Unknown");
+                    conn.Open();
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                    conn.Close();
+                    if (count > 0)
+                    {
+                        // Nếu đã có, cập nhật thông tin mới nhất
+                        string updateQuery = @"UPDATE scanner_devices SET name = @name, scan_time = @scan_time, status = @status, wifi_name = @wifi_name WHERE ip = @ip AND mac = @mac";
+                        using (var updateCmd = new MySqlCommand(updateQuery, conn))
+                        {
+                            updateCmd.Parameters.AddWithValue("@name", device.Name ?? "Unknown");
+                            updateCmd.Parameters.AddWithValue("@scan_time", DateTime.Now);
+                            updateCmd.Parameters.AddWithValue("@status", device.IsOn ? "Online" : "Offline");
+                            updateCmd.Parameters.AddWithValue("@wifi_name", GetWifiName() ?? "Unknown");
+                            updateCmd.Parameters.AddWithValue("@ip", device.IP ?? "Unknown");
+                            updateCmd.Parameters.AddWithValue("@mac", device.MAC ?? "Unknown");
+                            conn.Open();
+                            updateCmd.ExecuteNonQuery();
+                            conn.Close();
+                        }
+                        return;
+                    }
+                }
+
+                // Nếu chưa có, thêm mới
+                string query = @"INSERT INTO scanner_devices (ip, mac, name, scan_time, status, wifi_name)
+                         VALUES (@ip, @mac, @name, @scan_time, @status, @wifi_name)";
 
                 using (var cmd = new MySqlCommand(query, conn))
                 {
@@ -714,9 +814,11 @@ namespace LANSPYproject
                     cmd.Parameters.AddWithValue("@name", device.Name ?? "Unknown");
                     cmd.Parameters.AddWithValue("@scan_time", DateTime.Now);
                     cmd.Parameters.AddWithValue("@status", device.IsOn ? "Online" : "Offline");
+                    cmd.Parameters.AddWithValue("@wifi_name", GetWifiName() ?? "Unknown");
 
                     conn.Open();
                     cmd.ExecuteNonQuery();
+                    conn.Close();
                 }
             }
         }
@@ -739,6 +841,7 @@ namespace LANSPYproject
         private string _hostName = "";
         private string _name = "";
         private string _scanDate = "";
+        public string WifiName { get; set; }
 
         public int ID
         {
@@ -884,5 +987,8 @@ namespace LANSPYproject
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
+
+
     }
+
 }
