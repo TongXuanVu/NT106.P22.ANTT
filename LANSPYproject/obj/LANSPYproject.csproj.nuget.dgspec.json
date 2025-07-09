@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\LTM-benemtoinaythoi\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj": {}
+    "C:\\Users\\Administrator\\Documents\\Lập trình mạng\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj": {}
   },
   "projects": {
-    "D:\\LTM-benemtoinaythoi\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj": {
+    "C:\\Users\\Administrator\\Documents\\Lập trình mạng\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\LTM-benemtoinaythoi\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\Documents\\Lập trình mạng\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
         "projectName": "LANSPYproject",
-        "projectPath": "D:\\LTM-benemtoinaythoi\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "D:\\LTM-benemtoinaythoi\\NT106.P22.ANTT\\LANSPYproject\\obj\\",
+        "projectPath": "C:\\Users\\Administrator\\Documents\\Lập trình mạng\\NT106.P22.ANTT\\LANSPYproject\\LANSPYproject.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrator\\Documents\\Lập trình mạng\\NT106.P22.ANTT\\LANSPYproject\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "high",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -61,6 +61,10 @@
             "MySql.Data": {
               "target": "Package",
               "version": "[9.3.0, )"
+            },
+            "SnmpSharpNet": {
+              "target": "Package",
+              "version": "[0.9.7, )"
             },
             "System.Data.SqlClient": {
               "target": "Package",
@@ -86,7 +90,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

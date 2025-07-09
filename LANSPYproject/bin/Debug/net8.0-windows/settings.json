@@ -1,8 +1,8 @@
 {
   "StartWithWindows": true,
-  "NotifyNewDevice": true,
+  "NotifyNewDevice": false,
   "NotifyDisconnect": true,
   "NotifyUnknownMAC": true,
-  "DeviceThreshold": 5,
-  "ScanInterval": 30
+  "DeviceThreshold": 50,
+  "ScanInterval": 2000
 }

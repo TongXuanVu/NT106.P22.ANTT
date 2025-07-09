@@ -17,6 +17,8 @@ using System.Globalization;
 using System.Windows.Media;
 using System.Windows.Threading;
 using MySql.Data.MySqlClient;
+using System.IO;
+
 
 namespace LANSPYproject
 {
@@ -60,14 +62,7 @@ namespace LANSPYproject
         public Logs? LogsControl { get; set; }
         public Alerts? AlertsControl { get; set; }
 
-        private static readonly Dictionary<string, string> OUIManufacturers = new Dictionary<string, string>
-        {
-            {"00:1A:2B", "Cisco Systems"},
-            {"00:1B:44", "Dell Inc."},
-            {"00:1C:B3", "Apple, Inc."},
-            {"00:1D:7E", "Samsung Electronics"},
-            // Thêm mã OUI nếu cần
-        };
+        private static Dictionary<string, string> OUIManufacturers = new();
 
         public ObservableCollection<NetworkDevice> Devices { get; set; } = new ObservableCollection<NetworkDevice>();
 
@@ -103,9 +98,36 @@ namespace LANSPYproject
                 Dispatcher.Invoke(() => UpdateCurrentNetworkRange());
             };
             this.DataContext = this;
+            string csvPath = "oui.csv";
+            if (File.Exists(csvPath))
+            {
+                OUIManufacturers = LoadOUIFromCSV(csvPath);
+            }
 
-            SetupAutoScanTimer(); // tự động quét theo interval khi mở
+            SetupAutoScanTimer();
+        }// tự động quét theo interval khi mở
+        private static Dictionary<string, string> LoadOUIFromCSV(string csvPath)
+        {
+            var ouiDict = new Dictionary<string, string>();
+            var lines = File.ReadAllLines(csvPath);
+
+            foreach (var line in lines.Skip(1))
+            {
+                var parts = line.Split(',');
+                if (parts.Length >= 3)
+                {
+                    string rawOUI = parts[1].Replace("\"", "").Trim().ToUpper(); // ví dụ: "E00630"
+                    string org = parts[2].Replace("\"", "").Trim();
+
+                    if (!ouiDict.ContainsKey(rawOUI))
+                        ouiDict[rawOUI] = org;
+                }
+            }
+
+            return ouiDict;
         }
+
+
 
         // Nhận settings từ Setting control
         public void UpdateSettings(SettingsData newSettings)
@@ -538,41 +560,97 @@ namespace LANSPYproject
             }
             catch { }
         }
+        private async Task<string?> GetNetbiosName(string ip)
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    var psi = new ProcessStartInfo
+                    {
+                        FileName = "nbtstat",
+                        Arguments = "-A " + ip,
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+
+                    var process = Process.Start(psi);
+                    string output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+                    process.Dispose();
+
+                    var lines = output.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var line in lines)
+                    {
+                        if (line.Contains("<00>") && line.Contains("UNIQUE"))
+                        {
+                            var name = line.Trim().Split(' ')[0];
+                            return name;
+                        }
+                    }
+                }
+                catch { }
+
+                return null;
+            });
+        }
 
         private string GetManufacturerFromMac(string mac)
         {
-            if (string.IsNullOrWhiteSpace(mac) || mac.Length < 8) return "Unknown";
+            if (string.IsNullOrWhiteSpace(mac)) return "Unknown";
 
-            string oui = mac.Substring(0, 8).ToUpper().Replace('-', ':');
+            // Loại bỏ dấu và chỉ lấy 6 byte đầu tiên
+            string cleanMac = mac.Replace(":", "").Replace("-", "").ToUpper();
+            if (cleanMac.Length < 6) return "Unknown";
 
-            if (OUIManufacturers.TryGetValue(oui, out var manufacturer))
+            string ouiKey = cleanMac.Substring(0, 6); // ví dụ: "200889"
+
+            if (OUIManufacturers.TryGetValue(ouiKey, out var manufacturer))
                 return manufacturer;
 
             return "Unknown";
         }
 
+
+
         private async Task UpdateNameForDevice(string ip, NetworkDevice device)
         {
-            await Task.Run(() =>
+            string? hostName = null;
+
+            // Bước 1: Thử lấy hostname từ DNS
+            try
             {
-                try
+                var entry = await Dns.GetHostEntryAsync(ip);
+                if (!string.IsNullOrWhiteSpace(entry.HostName))
                 {
-                    var entry = Dns.GetHostEntry(ip);
-                    string hostname = entry.HostName;
-                    if (!string.IsNullOrWhiteSpace(hostname))
-                    {
-                        App.Current.Dispatcher.Invoke(() =>
-                        {
-                            device.HostName = hostname;
-                        });
-                    }
+                    hostName = entry.HostName;
                 }
-                catch
-                {
-                    // giữ nguyên nếu lỗi
-                }
+            }
+            catch
+            {
+                // DNS không resolve được, thử NetBIOS
+            }
+
+            // Bước 2: Nếu DNS fail, thử NetBIOS
+            if (string.IsNullOrWhiteSpace(hostName))
+            {
+                hostName = await GetNetbiosName(ip);
+            }
+
+            // Bước 3: Nếu vẫn null → đặt Unknown
+            if (string.IsNullOrWhiteSpace(hostName))
+            {
+                hostName = "Unknown";
+            }
+
+            // Gán kết quả vào thiết bị
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                device.HostName = hostName;
             });
         }
+
 
         private string GetNetworkAddress(string ipAddress, string subnetMask)
         {
@@ -714,15 +792,92 @@ namespace LANSPYproject
 
         private void UpdateNameCombined()
         {
-            if (!string.IsNullOrEmpty(HostName) && !string.IsNullOrEmpty(Manufacturer))
-                Name = $"{HostName} ({Manufacturer})";
-            else if (!string.IsNullOrEmpty(HostName))
-                Name = HostName;
-            else if (!string.IsNullOrEmpty(Manufacturer))
+            string guessedType = GuessDeviceTypeFromManufacturer(Manufacturer);
+
+            bool hasManufacturer = !string.IsNullOrWhiteSpace(Manufacturer);
+            bool hasGuess = !string.IsNullOrWhiteSpace(guessedType) && guessedType != "Unknown";
+
+            if (hasManufacturer && hasGuess)
+                Name = $"{Manufacturer} ({guessedType})";
+            else if (hasManufacturer)
                 Name = Manufacturer;
             else
                 Name = "Unknown";
         }
+
+        private string GuessDeviceTypeFromManufacturer(string manufacturer)
+        {
+            if (string.IsNullOrWhiteSpace(manufacturer)) return "Unknown";
+
+            string m = manufacturer.ToLower();
+
+            // === ROUTERS & NETWORKING ===
+            if (m.Contains("tp-link") || m.Contains("tplink") || m.Contains("d-link") || m.Contains("netgear") ||
+                m.Contains("tenda") || m.Contains("zyxel") || m.Contains("huawei") || m.Contains("zte") ||
+                m.Contains("mikrotik") || m.Contains("fiberhome"))
+                return "Home Router / Modem";
+
+            if (m.Contains("cisco") || m.Contains("juniper") || m.Contains("aruba") || m.Contains("hpe") ||
+                m.Contains("ubiquiti") || m.Contains("meraki") || m.Contains("ruckus"))
+                return "Enterprise Network Device";
+
+            // === CAMERAS ===
+            if (m.Contains("hikvision") || m.Contains("dahua") || m.Contains("ezviz") || m.Contains("uniview") ||
+                m.Contains("reolink") || m.Contains("axis") || m.Contains("vivotek") || m.Contains("amcrest"))
+                return "IP Camera / Surveillance";
+
+            // === COMPUTERS ===
+            if (m.Contains("dell") || m.Contains("hp") || m.Contains("asus") || m.Contains("acer") ||
+                m.Contains("msi") || m.Contains("lenovo") || m.Contains("gigabyte") || m.Contains("samsung electronics co.,ltd") ||
+                m.Contains("system76") || m.Contains("apple") && m.Contains("mac"))
+                return "Laptop / Desktop";
+
+            if (m.Contains("intel") || m.Contains("amd") || m.Contains("nvidia"))
+                return "Computer Component";
+
+            // === MOBILE DEVICES ===
+            if (m.Contains("apple") || m.Contains("samsung") || m.Contains("xiaomi") || m.Contains("oppo") ||
+                m.Contains("vivo") || m.Contains("realme") || m.Contains("oneplus") || m.Contains("huawei") ||
+                m.Contains("zte") || m.Contains("nokia") || m.Contains("infinix") || m.Contains("motorola"))
+                return "Smartphone / Tablet";
+
+            // === TV / MEDIA ===
+            if (m.Contains("sony") || m.Contains("lg") || m.Contains("tcl") || m.Contains("hisense") ||
+                m.Contains("panasonic") || m.Contains("philips") && m.Contains("tv"))
+                return "Smart TV / Media Device";
+
+            // === PRINTING ===
+            if (m.Contains("canon") || m.Contains("epson") || m.Contains("brother") || m.Contains("lexmark") ||
+                m.Contains("hp inc") || m.Contains("ricoh") || m.Contains("xerox"))
+                return "Printer / Scanner";
+
+            // === IOT / SMART HOME ===
+            if (m.Contains("espressif") || m.Contains("tuya") || m.Contains("shelly") || m.Contains("sonoff") ||
+                m.Contains("broadlink") || m.Contains("digoo") || m.Contains("gosund") || m.Contains("nspanel") ||
+                m.Contains("tuyatec") || m.Contains("smartthings"))
+                return "IoT / Smart Home Device";
+
+            // === VIRTUAL SYSTEMS ===
+            if (m.Contains("vmware") || m.Contains("virtualbox") || m.Contains("parallels") ||
+                m.Contains("qemu") || m.Contains("xen"))
+                return "Virtual Machine";
+
+            // === GAMING / AUDIO ===
+            if (m.Contains("nintendo") || m.Contains("playstation") || m.Contains("xbox"))
+                return "Game Console";
+
+            if (m.Contains("bose") || m.Contains("sonos") || m.Contains("jbl") || m.Contains("marshall"))
+                return "Smart Audio Device";
+
+            // === SPECIAL CASES ===
+            if (m.Contains("fn-link") || m.Contains("hunan") || m.Contains("quectel") ||
+                m.Contains("neoway") || m.Contains("simcom"))
+                return "WiFi / Cellular Module";
+
+            return "Unknown";
+        }
+
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? propName = null)

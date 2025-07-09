@@ -219,7 +219,7 @@ namespace LANSPYproject
 
         private void LoadDevicesFromDatabase()
         {
-            string connectionString = "server=localhost;user=root;password=260805;database=lan_spy_db;";
+            string connectionString = "server=localhost;user=root;password=1234;database=lan_spy_db;";
             string query = "SELECT ip, mac, name, scan_time, status FROM scanner_devices ORDER BY scan_time DESC";
 
             allDevices.Clear();
