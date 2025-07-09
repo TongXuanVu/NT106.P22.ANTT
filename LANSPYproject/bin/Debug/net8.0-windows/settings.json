@@ -1,6 +1,6 @@
 {
   "StartWithWindows": true,
-  "NotifyNewDevice": false,
+  "NotifyNewDevice": true,
   "NotifyDisconnect": true,
   "NotifyUnknownMAC": true,
   "DeviceThreshold": 50,

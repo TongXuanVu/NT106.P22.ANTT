@@ -2,9 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Vml;
 using MySql.Data.MySqlClient;
 namespace LANSPYproject
 {
@@ -29,6 +31,40 @@ namespace LANSPYproject
         {
             // Tải lại từ DB để giữ toàn bộ lịch sử
             LoadDevicesFromDatabase();
+        }
+
+        private string GetWifiName()
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo("netsh", "wlan show interfaces")
+                {
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using (Process process = Process.Start(psi))
+                {
+                    string output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+
+                    Regex regex = new Regex(@"^\s*SSID\s*:\s*(.+)$", RegexOptions.Multiline);
+                    Match match = regex.Match(output);
+                    if (match.Success)
+                    {
+                        string ssid = match.Groups[1].Value.Trim();
+                        if (ssid.Equals("BSSID", StringComparison.OrdinalIgnoreCase))
+                            return "Unknown";
+                        return ssid;
+                    }
+                }
+            }
+            catch
+            {
+                // Lỗi thì trả về Unknown
+            }
+            return "Unknown";
         }
 
 
@@ -167,7 +203,7 @@ namespace LANSPYproject
                     worksheet.Cell(row, 3).Value = device.IP;
                     worksheet.Cell(row, 4).Value = device.Name;
                     worksheet.Cell(row, 5).Value = device.ScanDate;
-                    worksheet.Cell(row, 6).Value = device.WifiName; // Ghi chú là tên wifi
+                    worksheet.Cell(row, 6).Value = GetWifiName(); // Ghi chú là tên wifi
                     row++;
                 }
 
