@@ -164,7 +164,7 @@ namespace LANSPYproject
         {
             OnlineDevicesCount = Devices.Count(d => d.IsOnline);
             TotalDevicesCount = Devices.Count;
-            StrangeDeviceAlerts = Devices.Count(d => d.IsStrangeDevice);
+            StrangeDeviceAlerts = Devices.Count(d => d.IsStrangeDevice); string csvPath = "oui.csv";
 
         }
 
@@ -218,20 +218,26 @@ namespace LANSPYproject
                     string output = process.StandardOutput.ReadToEnd();
                     process.WaitForExit();
 
-                    var regex = new Regex(@"^\s*BSSID\s*:\s*(.+)$", RegexOptions.Multiline);
-                    var match = regex.Match(output);
+                    // Lấy đúng dòng AP BSSID, tránh nhầm sang Physical address!
+                    var match = Regex.Match(output, @"^\s*AP BSSID\s*:\s*([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5})", RegexOptions.Multiline);
                     if (match.Success)
                     {
                         return match.Groups[1].Value.Trim();
                     }
-                    return "Unknown";
+
+                    // Nếu không có AP BSSID (không kết nối WiFi), trả về Không khả dụng
+                    return "Không khả dụng";
                 });
             }
             catch
             {
-                return "Unknown";
+                return "Không khả dụng";
             }
         }
+
+
+
+
 
         private async Task<string> GetCurrentWifiSpeedAsync()
         {
