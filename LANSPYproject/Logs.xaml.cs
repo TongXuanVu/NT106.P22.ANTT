@@ -209,7 +209,7 @@ namespace LANSPYproject
 
         private void LoadDevicesFromDatabase()
         {
-            string connectionString = "server=localhost;user=root;password=2104230122;database=lan_spy_db;";
+            string connectionString = "server=yamabiko.proxy.rlwy.net;port=17335;user=root;password=KRIDiTbBoaPMfoCjFVhzgVcliVcApIbP;database=railway;SslMode=None;AllowPublicKeyRetrieval=True;";
             string query = "SELECT ip, mac, name, scan_time, status, wifi_name FROM scanner_devices ORDER BY scan_time DESC";
 
             allDevices.Clear();

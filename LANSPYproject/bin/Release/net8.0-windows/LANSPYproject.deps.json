@@ -11,6 +11,7 @@
           "ClosedXML": "0.105.0",
           "LiveCharts.Wpf": "0.9.7",
           "MySql.Data": "9.3.0",
+          "SnmpSharpNet": "0.9.7",
           "System.Data.SqlClient": "4.9.0"
         },
         "runtime": {
@@ -236,6 +237,14 @@
           }
         }
       },
+      "SnmpSharpNet/0.9.7": {
+        "runtime": {
+          "lib/SnmpSharpNet.dll": {
+            "assemblyVersion": "0.9.7.0",
+            "fileVersion": "0.9.7.0"
+          }
+        }
+      },
       "System.Buffers/4.5.1": {},
       "System.Configuration.ConfigurationManager/8.0.0": {
         "dependencies": {
@@ -268,7 +277,14 @@
           }
         }
       },
-      "System.Diagnostics.DiagnosticSource/8.0.1": {},
+      "System.Diagnostics.DiagnosticSource/8.0.1": {
+        "runtime": {
+          "lib/net8.0/System.Diagnostics.DiagnosticSource.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.424.16909"
+          }
+        }
+      },
       "System.Diagnostics.EventLog/8.0.0": {},
       "System.IO/4.3.0": {
         "dependencies": {
@@ -538,6 +554,13 @@
       "sha512": "sha512-LFQsCZlV0xlUyXAOMUo5kkSl+8zAQXXbbdwWchtk0B4o7zotZhQsQOcJUELGHdfPfm/xDAsz6hONAuV25bJaAg==",
       "path": "sixlabors.fonts/1.0.0",
       "hashPath": "sixlabors.fonts.1.0.0.nupkg.sha512"
+    },
+    "SnmpSharpNet/0.9.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0xjVNdrIntHezvGyeGu2tAeERRW8xiwvmOMHMXLJtvSwsCzDPpXBDjhLR/H2gdhXVZScjH2pozoTPHXwObIUrw==",
+      "path": "snmpsharpnet/0.9.7",
+      "hashPath": "snmpsharpnet.0.9.7.nupkg.sha512"
     },
     "System.Buffers/4.5.1": {
       "type": "package",
