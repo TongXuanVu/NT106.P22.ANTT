@@ -110,7 +110,7 @@ namespace LANSPYproject
 
         private static void CreateDatabaseIfNotExists()
         {
-            string connectionString = "server=localhost;user=root;password=260805;";
+            string connectionString = "server=localhost;user=root;password=2104230122;";
             string dbName = "lan_spy_db";
             using (var conn = new MySql.Data.MySqlClient.MySqlConnection(connectionString))
             {
@@ -771,7 +771,7 @@ namespace LANSPYproject
         }
         private void SaveDeviceToDatabase(NetworkDevice device)
         {
-            string connectionString = "server=localhost;user=root;password=260805;database=lan_spy_db;";
+            string connectionString = "server=localhost;user=root;password=2104230122;database=lan_spy_db;";
             using (var conn = new MySqlConnection(connectionString))
             {
                 // Kiểm tra trùng lặp theo IP và MAC
