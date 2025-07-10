@@ -364,14 +364,6 @@ namespace LANSPYproject
 
             cts = new CancellationTokenSource();
 
-            App.Current.Dispatcher.Invoke(() =>
-            {
-                foreach (var device in Devices)
-                {
-                    device.IsOn = false;
-                }
-            });
-
             StatusTextBlock.Text = "Đang quét...";
             StatusTextBlock.Foreground = Brushes.Green;
             ScanButton.IsEnabled = false;
@@ -507,7 +499,7 @@ namespace LANSPYproject
                                     }
                                 }
                             }
-                            else
+                            if (reply.Status != IPStatus.Success)
                             {
                                 App.Current.Dispatcher.Invoke(() =>
                                 {
