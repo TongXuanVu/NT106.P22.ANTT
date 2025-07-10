@@ -218,14 +218,13 @@ namespace LANSPYproject
                     string output = process.StandardOutput.ReadToEnd();
                     process.WaitForExit();
 
-                    // Lấy đúng dòng AP BSSID, tránh nhầm sang Physical address!
-                    var match = Regex.Match(output, @"^\s*AP BSSID\s*:\s*([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5})", RegexOptions.Multiline);
+                    // Tìm dòng BSSID:
+                    var match = Regex.Match(output, @"^\s*BSSID\s*:\s*([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5})", RegexOptions.Multiline);
                     if (match.Success)
                     {
                         return match.Groups[1].Value.Trim();
                     }
 
-                    // Nếu không có AP BSSID (không kết nối WiFi), trả về Không khả dụng
                     return "Không khả dụng";
                 });
             }
@@ -234,6 +233,7 @@ namespace LANSPYproject
                 return "Không khả dụng";
             }
         }
+
 
 
 
