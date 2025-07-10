@@ -50,6 +50,7 @@ namespace LANSPYproject
         }
         #endregion
 
+
         #region Settings Load/Save
         /// <summary>
         /// Tải cài đặt từ file JSON

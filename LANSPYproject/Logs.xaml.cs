@@ -196,20 +196,37 @@ namespace LANSPYproject
         // Xử lý sự kiện khi nhấn nút Xóa log cũ (> 7 ngày)
         private void DeleteOldLogsButton_Click(object sender, RoutedEventArgs e)
         {
-            var cutoffDate = DateTime.Now.AddDays(-7);
+            var result = MessageBox.Show("Bạn có chắc muốn xóa toàn bộ lịch sử log?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result != MessageBoxResult.Yes) return;
 
-            // Lọc lại bộ dữ liệu gốc loại bỏ thiết bị cũ
-            var filtered = allDevices.Where(d =>
-                DateTime.TryParse(d.ScanDate, out var scanDate) && scanDate >= cutoffDate);
+            string connectionString = "server=yamabiko.proxy.rlwy.net;port=17335;user=root;password=KRIDiTbBoaPMfoCjFVhzgVcliVcApIbP;database=lan_spy_db;SslMode=None;AllowPublicKeyRetrieval=True;";
+            string deleteQuery = "DELETE FROM scanner_devices"; // XÓA TẤT CẢ LOG
 
-            allDevices = new ObservableCollection<NetworkDevice>(filtered);
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                using (var cmd = new MySqlCommand(deleteQuery, conn))
+                {
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
 
-            RefreshDisplayDevices();
+                    MessageBox.Show($"Đã xóa {rowsAffected} log thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi khi xóa log: " + ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            // Load lại dữ liệu mới nhất
+            LoadDevicesFromDatabase();
         }
+
+
 
         private void LoadDevicesFromDatabase()
         {
-            string connectionString = "server=yamabiko.proxy.rlwy.net;port=17335;user=root;password=KRIDiTbBoaPMfoCjFVhzgVcliVcApIbP;database=railway;SslMode=None;AllowPublicKeyRetrieval=True;";
+            string connectionString = "server=yamabiko.proxy.rlwy.net;port=17335;user=root;password=KRIDiTbBoaPMfoCjFVhzgVcliVcApIbP;database=lan_spy_db;SslMode=None;AllowPublicKeyRetrieval=True;";
             string query = "SELECT ip, mac, name, scan_time, status, wifi_name FROM scanner_devices ORDER BY scan_time DESC";
 
             allDevices.Clear();

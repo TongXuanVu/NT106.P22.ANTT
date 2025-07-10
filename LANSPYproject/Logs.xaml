@@ -149,12 +149,12 @@
                                       ScrollViewer.VerticalScrollBarVisibility="Auto">
 
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="SL No" Width="50" Binding="{Binding ID}"/>
+                                    
                                     <DataGridTextColumn Header="MAC Address" Width="200" Binding="{Binding MAC}"/>
                                     <DataGridTextColumn Header="IP Address" Width="150" Binding="{Binding IP}"/>
                                     <DataGridTextColumn Header="Tên thiết bị" Width="200" Binding="{Binding Name}"/>
                                     <DataGridTextColumn Header="Thời gian" Width="150" Binding="{Binding ScanDate}"/>
-                                    <DataGridTextColumn Header="Ghi chú" Width="100" Binding="{Binding WifiName}"/>
+                                    <DataGridTextColumn Header="Wifi name" Width="100" Binding="{Binding WifiName}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0" Grid.Row="2">
@@ -195,7 +195,7 @@
                                     </Button.Style>
                                 </Button>
 
-                                <Button Width="180" Height="35" Content="Xoá log cũ (> 7 ngày)" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,20,0"
+                                <Button Width="180" Height="35" Content="Xoá log cũ" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,20,0"
                                         Click="DeleteOldLogsButton_Click">
                                     <Button.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">

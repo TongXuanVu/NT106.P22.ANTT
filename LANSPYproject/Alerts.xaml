@@ -53,8 +53,11 @@
                         </DataGrid>
                     </Border>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,20,0" >
-                        <Button Width="120" Height="35" Content="Lọc theo loại" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,30,0">
+                    <!-- Nhóm các nút chức năng và ComboBox lọc -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top">
+                        <!-- Nút xóa cảnh báo cũ -->
+                        <Button x:Name="DeleteOldAlertsButton" Width="135" Height="35" Content="Xóa cảnh báo cũ" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,30,0"
+            Click="DeleteOldAlertsButton_Click">
                             <Button.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                     <GradientStop Color="#123288" Offset="0"/>
@@ -66,45 +69,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}" 
-                                    CornerRadius="20" 
-                                    Padding="8,4">
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background">
-                                                <Setter.Value>
-                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                        <GradientStop Color="#1A47B8" Offset="0"/>
-                                                        <GradientStop Color="#4B7BFF" Offset="1"/>
-                                                    </LinearGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-
-                        <Button Width="135" Height="35" Content="Xóa cảnh báo cũ" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" Margin="0,0,30,0">
-                            <Button.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                    <GradientStop Color="#123288" Offset="0"/>
-                                    <GradientStop Color="#295EEC" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Button.Background>
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}" 
-                                    CornerRadius="20" 
-                                    Padding="8,4">
+                                                <Border Background="{TemplateBinding Background}" CornerRadius="20" Padding="8,4">
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
@@ -120,18 +85,14 @@
                                                     </LinearGradientBrush>
                                                 </Setter.Value>
                                             </Setter>
-                                            <!--<Setter Property="RenderTransform">
-                                                <Setter.Value>
-                                                    <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
-                                                </Setter.Value>
-                                            </Setter>-->
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                         </Button>
-
-                        <Button Width="120" Height="35" Content="Xuất báo cáo" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand">
+                        <!-- Nút xuất báo cáo -->
+                        <Button x:Name="ExportAlertsButton" Width="120" Height="35" Content="Xuất báo cáo" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand"
+            Click="ExportAlertsButton_Click">
                             <Button.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                     <GradientStop Color="#123288" Offset="0"/>
@@ -143,9 +104,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}" 
-                                    CornerRadius="20" 
-                                    Padding="8,4">
+                                                <Border Background="{TemplateBinding Background}" CornerRadius="20" Padding="8,4">
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
@@ -161,11 +120,6 @@
                                                     </LinearGradientBrush>
                                                 </Setter.Value>
                                             </Setter>
-                                            <!--<Setter Property="RenderTransform">
-                                                <Setter.Value>
-                                                    <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
-                                                </Setter.Value>
-                                            </Setter>-->
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>

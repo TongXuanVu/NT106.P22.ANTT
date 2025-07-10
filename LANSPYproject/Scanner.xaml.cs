@@ -122,7 +122,7 @@ namespace LANSPYproject
                 }
             }
             // Tạo bảng nếu chưa có
-            string tableConnStr = connectionString + $"database=railway;SslMode=None;AllowPublicKeyRetrieval=True;";
+            string tableConnStr = connectionString + $"database=lan_spy_db;SslMode=None;AllowPublicKeyRetrieval=True;";
             using (var conn = new MySql.Data.MySqlClient.MySqlConnection(tableConnStr))
             {
                 conn.Open();
@@ -771,7 +771,7 @@ namespace LANSPYproject
         }
         private void SaveDeviceToDatabase(NetworkDevice device)
         {
-            string connectionString = "server=yamabiko.proxy.rlwy.net;port=17335;user=root;password=KRIDiTbBoaPMfoCjFVhzgVcliVcApIbP;database=railway;SslMode=None;AllowPublicKeyRetrieval=True;";
+            string connectionString = "server=yamabiko.proxy.rlwy.net;port=17335;user=root;password=KRIDiTbBoaPMfoCjFVhzgVcliVcApIbP;database=lan_spy_db;SslMode=None;AllowPublicKeyRetrieval=True;";
             using (var conn = new MySqlConnection(connectionString))
             {
                 // Kiểm tra trùng lặp theo IP và MAC

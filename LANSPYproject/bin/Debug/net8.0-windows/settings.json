@@ -4,5 +4,5 @@
   "NotifyDisconnect": true,
   "NotifyUnknownMAC": true,
   "DeviceThreshold": 50,
-  "ScanInterval": 2000
+  "ScanInterval": 3000
 }
