@@ -218,11 +218,24 @@ namespace LANSPYproject
                     string output = process.StandardOutput.ReadToEnd();
                     process.WaitForExit();
 
-                    // Tìm dòng BSSID:
-                    var match = Regex.Match(output, @"^\s*BSSID\s*:\s*([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5})", RegexOptions.Multiline);
-                    if (match.Success)
+                    // Nếu không kết nối WiFi
+                    if (output.Contains("State") && output.Contains("disconnected"))
+                        return "Không kết nối WiFi";
+
+                    // Tìm các dòng BSSID khác nhau (English, Vietnamese, Multi-brand)
+                    var regexes = new[]
                     {
-                        return match.Groups[1].Value.Trim();
+                new Regex(@"^\s*AP BSSID\s*:\s*([0-9A-Fa-f]{2}([:-][0-9A-Fa-f]{2}){5})", RegexOptions.Multiline),
+                new Regex(@"^\s*BSSID\s*:\s*([0-9A-Fa-f]{2}([:-][0-9A-Fa-f]{2}){5})", RegexOptions.Multiline),
+                new Regex(@"^\s*Địa chỉ MAC điểm truy cập\s*:\s*([0-9A-Fa-f]{2}([:-][0-9A-Fa-f]{2}){5})", RegexOptions.Multiline),
+                new Regex(@"^\s*Access Point\s*:\s*([0-9A-Fa-f]{2}([:-][0-9A-Fa-f]{2}){5})", RegexOptions.Multiline)
+            };
+
+                    foreach (var regex in regexes)
+                    {
+                        var match = regex.Match(output);
+                        if (match.Success)
+                            return match.Groups[1].Value.Trim();
                     }
 
                     return "Không khả dụng";
@@ -233,6 +246,9 @@ namespace LANSPYproject
                 return "Không khả dụng";
             }
         }
+
+
+
 
 
 
